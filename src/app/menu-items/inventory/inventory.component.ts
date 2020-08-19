@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { InventoryListMockService } from '../../app-logic/inventory-list-mock.service'
 import { InventoryItem } from '../../app-logic/inventory-item'
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator'
+import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections'
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmItemDeletionComponent } from 'src/app/dialogs/confirm-item-deletion/confirm-item-deletion.component';
 
 @Component({
   selector: 'app-inventory',
@@ -30,10 +32,11 @@ export class InventoryComponent implements OnInit {
     'inventoryNumber',
     'createdAt',
     'modifiedAt',
-    'deleted'
+    'deleted',
+    'editAction'
   ]
 
-  constructor(private inventoryListMockService: InventoryListMockService) { }
+  constructor(private inventoryListMockService: InventoryListMockService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.inventoryItems = new MatTableDataSource<InventoryItem>(this.inventoryListMockService.getData());
@@ -53,6 +56,34 @@ export class InventoryComponent implements OnInit {
     const selectedItems = this.selection.selected.length;
     const numOfRows = this.inventoryItems.data.length;
     return selectedItems === numOfRows;
+  }
+
+  askDeleteSelectedItems() {
+    if (this.selection.selected.length == 0)
+      alert('No items selected, nothing to delete.')
+    else {
+      let noOfItems = this.selection.selected.length;
+      const dialogRef = this.dialog.open(ConfirmItemDeletionComponent, { width: '250px', data: noOfItems })
+      dialogRef.afterClosed().subscribe(result => {
+        if (result == true) {
+          this.deleteSelectedItems();
+          this.selection.clear();
+        }
+      })
+    }
+  }
+
+  deleteSelectedItems() {
+    let updatedData = this.inventoryItems.data;
+    this.selection.selected.forEach(selectionItem => {
+      updatedData = updatedData.filter((inventoryItem) => inventoryItem.id.toString() != selectionItem.id)
+    });
+    // TODO: update mongoDB via service, this edits the table only
+    this.inventoryItems = new MatTableDataSource<InventoryItem>(updatedData);
+    // after updating database, fetch data from it instead (delete the previous line and uncomment the next one)
+    // this.inventoryItems = new MatTableDataSource<InventoryItem>(this.inventoryListMockService.getData());
+    this.inventoryItems.paginator = this.paginator;
+    this.inventoryItems.sort = this.sort;
   }
 
 }

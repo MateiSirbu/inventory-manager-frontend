@@ -17,12 +17,18 @@ import { MatTableModule } from '@angular/material/table'
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { EcoFabSpeedDialModule } from '@ecodev/fab-speed-dial';
+import { ConfirmItemDeletionComponent } from './dialogs/confirm-item-deletion/confirm-item-deletion.component'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { FormsModule } from '@angular/forms'
+import { MatDialogModule } from '@angular/material/dialog'
 
 @NgModule({
   declarations: [
     AppComponent,
     RoutingComponent,
-    NavBarComponent
+    NavBarComponent,
+    ConfirmItemDeletionComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +40,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    EcoFabSpeedDialModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,12 @@
+<div mat-dialog-title>
+  <mat-icon aria-hidden="false" aria-label="Example home icon" style="vertical-align: middle;">warning</mat-icon>
+  Confirm deletion?
+</div>
+<div mat-dialog-content>
+  <p>{{data}} items will be deleted.</p>
+  <p>This action cannot be undone.</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">CANCEL</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>OK</button>
+</div>
