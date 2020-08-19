@@ -21,14 +21,17 @@ import { EcoFabSpeedDialModule } from '@ecodev/fab-speed-dial';
 import { ConfirmItemDeletionComponent } from './dialogs/confirm-item-deletion/confirm-item-deletion.component'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { FormsModule } from '@angular/forms'
-import { MatDialogModule } from '@angular/material/dialog'
+import { MatDialogModule } from '@angular/material/dialog';
+import { EditInventoryItemComponent } from './dialogs/edit-inventory-item/edit-inventory-item.component'
+import { MatInputModule } from '@angular/material/input'
 
 @NgModule({
   declarations: [
     AppComponent,
     RoutingComponent,
     NavBarComponent,
-    ConfirmItemDeletionComponent
+    ConfirmItemDeletionComponent,
+    EditInventoryItemComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { MatDialogModule } from '@angular/material/dialog'
     EcoFabSpeedDialModule,
     MatFormFieldModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

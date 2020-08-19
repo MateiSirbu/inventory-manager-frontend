@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections'
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmItemDeletionComponent } from 'src/app/dialogs/confirm-item-deletion/confirm-item-deletion.component';
+import { EditInventoryItemComponent } from 'src/app/dialogs/edit-inventory-item/edit-inventory-item.component';
 
 @Component({
   selector: 'app-inventory',
@@ -71,6 +72,31 @@ export class InventoryComponent implements OnInit {
         }
       })
     }
+  }
+
+  editItem(item)
+  {
+    let itemInfo = {
+      id: item.id,
+      name: item.name,
+      user: item.user,
+      description: item.description,
+      location: item.location,
+      inventoryNumber: item.inventoryNumber
+    }
+    const dialogRef = this.dialog.open(EditInventoryItemComponent, { width: '250px', data: itemInfo})
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        item.id = itemInfo.id;
+        item.name = itemInfo.name;
+        item.user = itemInfo.user;
+        item.description = itemInfo.description;
+        item.location = itemInfo.location;
+        item.inventoryNumber = itemInfo.inventoryNumber;
+        item.modifiedAt = new Date();
+      }
+      // TODO: update database with aforementioned information
+     })
   }
 
   deleteSelectedItems() {

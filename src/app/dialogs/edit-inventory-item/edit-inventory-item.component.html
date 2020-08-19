@@ -1,0 +1,30 @@
+<div mat-dialog-title>
+    <mat-icon aria-hidden="false" style="vertical-align: middle;">edit</mat-icon>
+    Edit item {{data.id}}
+</div>
+<div mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Name:</mat-label>
+        <input matInput [(ngModel)]="data.name">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>User:</mat-label>
+        <input matInput [(ngModel)]="data.user">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Description:</mat-label>
+        <input matInput [(ngModel)]="data.description">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Location:</mat-label>
+        <input matInput [(ngModel)]="data.location">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Inventory №:</mat-label>
+        <input matInput [(ngModel)]="data.inventoryNumber">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">CANCEL</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>OK</button>
+</div>
