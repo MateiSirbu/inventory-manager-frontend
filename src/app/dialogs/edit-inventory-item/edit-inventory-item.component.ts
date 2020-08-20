@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-inventory-item',
@@ -10,7 +11,7 @@ export class EditInventoryItemComponent {
 
   constructor(
     public dialogRef: MatDialogRef<EditInventoryItemComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {}
+    @Inject(MAT_DIALOG_DATA) public form: FormGroup) {}
 
   onNoClick(): void {
     this.dialogRef.close();

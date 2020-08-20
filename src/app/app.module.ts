@@ -20,10 +20,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EcoFabSpeedDialModule } from '@ecodev/fab-speed-dial';
 import { ConfirmItemDeletionComponent } from './dialogs/confirm-item-deletion/confirm-item-deletion.component'
 import { MatFormFieldModule } from '@angular/material/form-field'
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatDialogModule } from '@angular/material/dialog';
 import { EditInventoryItemComponent } from './dialogs/edit-inventory-item/edit-inventory-item.component'
 import { MatInputModule } from '@angular/material/input'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -48,7 +52,12 @@ import { MatInputModule } from '@angular/material/input'
     MatFormFieldModule,
     FormsModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTooltipModule,
+    MatCardModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

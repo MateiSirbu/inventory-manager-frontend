@@ -1,4 +1,5 @@
 .container
 {
+    box-sizing: border-box;
     padding: 30px 30px 30px 30px;
 }

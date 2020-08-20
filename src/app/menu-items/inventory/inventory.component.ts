@@ -8,6 +8,7 @@ import { SelectionModel } from '@angular/cdk/collections'
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmItemDeletionComponent } from 'src/app/dialogs/confirm-item-deletion/confirm-item-deletion.component';
 import { EditInventoryItemComponent } from 'src/app/dialogs/edit-inventory-item/edit-inventory-item.component';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-inventory',
@@ -37,7 +38,7 @@ export class InventoryComponent implements OnInit {
     'editAction'
   ]
 
-  constructor(private inventoryListMockService: InventoryListMockService, public dialog: MatDialog) { }
+  constructor(private inventoryListMockService: InventoryListMockService, public dialog: MatDialog, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.inventoryItems = new MatTableDataSource<InventoryItem>(this.inventoryListMockService.getData());
@@ -64,7 +65,7 @@ export class InventoryComponent implements OnInit {
       alert('No items selected, nothing to delete.')
     else {
       let noOfItems = this.selection.selected.length;
-      const dialogRef = this.dialog.open(ConfirmItemDeletionComponent, { width: '250px', data: noOfItems })
+      const dialogRef = this.dialog.open(ConfirmItemDeletionComponent, { width: '300px', data: noOfItems })
       dialogRef.afterClosed().subscribe(result => {
         if (result == true) {
           this.deleteSelectedItems();
@@ -76,23 +77,25 @@ export class InventoryComponent implements OnInit {
 
   editItem(item)
   {
-    let itemInfo = {
-      id: item.id,
-      name: item.name,
-      user: item.user,
-      description: item.description,
-      location: item.location,
-      inventoryNumber: item.inventoryNumber
-    }
-    const dialogRef = this.dialog.open(EditInventoryItemComponent, { width: '250px', data: itemInfo})
+    let itemInfoForm = this.fb.group({
+      id: [item.id],
+      name: [item.name, Validators.required],
+      description: [item.description, Validators.maxLength(200)],
+      user: [item.user, Validators.required],
+      location: [item.location, Validators.required],
+      inventoryNumber: [item.inventoryNumber, Validators.required],
+      createdAt: [item.createdAt, Validators.required]
+    })
+    const dialogRef = this.dialog.open(EditInventoryItemComponent, { width: '400px', data: itemInfoForm})
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
-        item.id = itemInfo.id;
-        item.name = itemInfo.name;
-        item.user = itemInfo.user;
-        item.description = itemInfo.description;
-        item.location = itemInfo.location;
-        item.inventoryNumber = itemInfo.inventoryNumber;
+        item.id = itemInfoForm.value.id;
+        item.name = itemInfoForm.value.name;
+        item.user = itemInfoForm.value.user;
+        item.description = itemInfoForm.value.description;
+        item.location = itemInfoForm.value.location;
+        item.inventoryNumber = itemInfoForm.value.inventoryNumber;
+        item.createdAt = itemInfoForm.value.createdAt;
         item.modifiedAt = new Date();
       }
       // TODO: update database with aforementioned information

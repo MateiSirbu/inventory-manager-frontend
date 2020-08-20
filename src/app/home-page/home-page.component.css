@@ -1,4 +1,9 @@
 .container
 {
+    box-sizing: border-box;
     padding: 30px 30px 30px 30px;
+    background-image: url('../../assets/storageunit_hero.jpg');
+    background-position: center;
+    height: 100%;
+    overflow-y: scroll;
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { InventoryItem } from './inventory-item'
+import { TitleCasePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -123,8 +124,21 @@ export class InventoryListMockService {
 
   constructor() { }
 
-  getData(): Array<InventoryItem>
-  {
+  getData(): Array<InventoryItem> {
     return this.inventoryData;
+  }
+
+  addItem(item: InventoryItem): void {
+    this.inventoryData.push(item);
+  }
+
+  getLastId(): number {
+    return Math.max.apply(
+      Math, this.inventoryData.map(x => x.id)
+    )
+  }
+
+  getItemById(id: number): InventoryItem {
+    return this.inventoryData.filter((x) => x.id == id)[0];
   }
 }
