@@ -108,9 +108,8 @@ export class InventoryComponent implements OnInit {
       updatedData = updatedData.filter((inventoryItem) => inventoryItem.id.toString() != selectionItem.id)
     });
     // TODO: update mongoDB via service, this edits the table only
-    this.inventoryItems = new MatTableDataSource<InventoryItem>(updatedData);
-    // after updating database, fetch data from it instead (delete the previous line and uncomment the next one)
-    // this.inventoryItems = new MatTableDataSource<InventoryItem>(this.inventoryListMockService.getData());
+    this.inventoryListMockService.inventoryData = updatedData;
+    this.inventoryItems = new MatTableDataSource<InventoryItem>(this.inventoryListMockService.getData());
     this.inventoryItems.paginator = this.paginator;
     this.inventoryItems.sort = this.sort;
   }
