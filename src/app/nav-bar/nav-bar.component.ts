@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +14,10 @@ export class NavBarComponent implements OnInit {
   activeLink: string = undefined;
   background: ThemePalette = 'primary';
   appName: string = 'Inventory Manager';
+
+  constructor(private router: Router) {
+    router.events.subscribe(_ => this.highlightActiveLink());
+  }
 
   highlightActiveLink()
   {

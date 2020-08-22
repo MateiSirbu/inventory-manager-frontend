@@ -28,6 +28,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
+import { AddItemFormComponent } from './forms/add-item-form/add-item-form.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { MatCardModule } from '@angular/material/card';
     RoutingComponent,
     NavBarComponent,
     ConfirmItemDeletionComponent,
-    EditInventoryItemComponent
+    EditInventoryItemComponent,
+    AddItemFormComponent,
   ],
   imports: [
     BrowserModule,

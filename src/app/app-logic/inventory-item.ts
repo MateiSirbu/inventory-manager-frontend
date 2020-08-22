@@ -1,5 +1,3 @@
-import { OVERLAY_KEYBOARD_DISPATCHER_PROVIDER_FACTORY } from '@angular/cdk/overlay/dispatchers/overlay-keyboard-dispatcher';
-
 export class InventoryItem {
     id: number;
     name: string;
@@ -15,5 +13,4 @@ export class InventoryItem {
     {
         Object.assign(this, init)
     }
-
 }
