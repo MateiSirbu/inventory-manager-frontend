@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { InventoryListMockService } from 'src/app/app-logic/inventory-list-mock.service';
 import { InventoryItem } from 'src/app/app-logic/inventory-item';
 import { Router } from '@angular/router';
+import { InventoryListService } from 'src/app/app-logic/inventory-list.service';
 
 @Component({
   selector: 'app-add-item-form',
@@ -10,7 +11,9 @@ import { Router } from '@angular/router';
 })
 export class AddItemFormComponent {
 
-  constructor(private inventoryMockService: InventoryListMockService, private route: Router) { }
+  constructor(private inventoryMockService: InventoryListMockService,
+     private route: Router,
+     private inventoryListService: InventoryListService) { }
 
   submitted = false;
 
@@ -27,8 +30,9 @@ export class AddItemFormComponent {
 
   onSubmit() {
     this.submitted = true;
-    this.model.id = this.inventoryMockService.getLastId() + 1;
-    this.inventoryMockService.addItem(this.model);
+    // this.model.id = this.inventoryMockService.getLastId() + 1; 
+    // unnecessary, mongoDB does this for you. Also not required by API, throws internal error
+    this.inventoryListService.postData(this.model).subscribe();
   }
 
   navigateToInventoryList() {
