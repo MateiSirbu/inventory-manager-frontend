@@ -3,8 +3,9 @@
         <mat-progress-spinner color="primary" mode="indeterminate">
         </mat-progress-spinner>
     </div>
-    <div [style.visibility]="isLoading ? 'hidden' : 'visible'" class="mat-headline">Inventory</div>
-    <table [style.visibility]="isLoading ? 'hidden' : 'visible'" mat-table [dataSource]="inventoryItems" matSort class="mat-elevation-z8">
+    <div [style.display]="isLoading ? 'none' : 'block'" class="mat-headline">Inventory</div>
+    <div [style.display]="activeOnly && !isLoading ? 'block' : 'none'"class="mat-subheading-1"><mat-icon style="vertical-align: bottom;">filter_alt</mat-icon> Showing active items only.</div>
+    <table [style.display]="isLoading ? 'none' : 'table'" mat-table [dataSource]="inventoryItems" matSort class="mat-elevation-z8">
 
         <!-- Checkbox column -->
         <ng-container matColumnDef="select">
@@ -81,7 +82,7 @@
         <tr mat-header-row *matHeaderRowDef="inventoryColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: inventoryColumns;"></tr>
     </table>
-    <mat-paginator [pageSize]="5" [pageIndex]="0" [length]="100" [pageSizeOptions]="[3, 5, 6, 10]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [style.display]="isLoading ? 'none' : 'flex'" [pageSize]="5" [pageIndex]="0" [length]="itemsCount" [pageSizeOptions]="[3, 5, 6, 10]" showFirstLastButtons></mat-paginator>
     
     <div>
         <eco-fab-speed-dial class="speed-dial">
@@ -95,7 +96,7 @@
                     color="primary">
                     <mat-icon>delete</mat-icon>
                 </button>
-                <button mat-mini-fab matTooltip="Filter" matTooltipPosition="left" color="primary">
+                <button (click)="toggleActive()" mat-mini-fab matTooltip="Toggle active filter" matTooltipPosition="left" color="primary">
                     <mat-icon>filter_alt</mat-icon>
                 </button>
             </eco-fab-speed-dial-actions>

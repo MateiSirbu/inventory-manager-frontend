@@ -2,7 +2,7 @@
     <div class="header">
         <app-navbar></app-navbar>
     </div>
-    <div class="content">
-        <router-outlet></router-outlet>
+    <div class="content" [@animRoutes]="animationState">
+        <router-outlet (activate)="onActivate($event)"></router-outlet>
     </div>
 </div>

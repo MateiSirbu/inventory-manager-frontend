@@ -14,24 +14,34 @@ export class InventoryListService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
-    getData() {
-        return this.http.get<InventoryItem[]>('/api/inventory-items')
+    getData(pageNumber = 1, pageSize = 5, activeOnly = false, sorting = ''): Observable<[InventoryItem[], number]> {
+        let params = new HttpParams()
+            .set('activeOnly', activeOnly ? 'true' : 'false')
+            .set('pageNumber', pageNumber.toString())
+            .set('pageSize', pageSize.toString())
+        if (sorting) params = params.set('sort', sorting);
+
+        return this.http
+            .get<InventoryItem[]>('/api/inventory-items', {
+                params: params,
+                observe: 'response'
+            })
             .pipe(
-                tap((resp) => console.log("Inventory items fetched.", resp)),
-                delay(100 + Math.floor(Math.random() * 900))
-            )
+                tap((resp) => {
+                    console.log('Inventory items fetched', resp.body);
+                }),
+                map((resp) => {
+                    return [resp.body, parseInt(resp.headers.get('X-Count'))];
+                })
+            );
     }
 
-    putData(editedItem: InventoryItem) {
-        console.log('put')
-        return this.http.put<InventoryItem>('/api/inventory-items', editedItem, this.httpOptions)
-            .pipe(
-                tap((resp: InventoryItem) => console.log(`Updated item: `, resp))
-            )
+    updateData(item: InventoryItem) {
+        return this.http.put<InventoryItem>('/api/inventory-items/' + item.id, item)
+        .pipe(tap(() => console.log ('Item ', item.id, ' was updated.')))
     }
 
     postData(newItem: InventoryItem) {
-        console.log('post')
         return this.http.post<InventoryItem>('/api/inventory-items', newItem, this.httpOptions)
             .pipe(
                 tap((resp: InventoryItem) => console.log(`Added item: `, resp))

@@ -25,7 +25,7 @@ export class AddItemFormComponent {
     createdAt: new Date(),
     modifiedAt: new Date(),
     description: "The thing in a nutshell, or two",
-    deleted: false
+    active: false
   })
 
   onSubmit() {
