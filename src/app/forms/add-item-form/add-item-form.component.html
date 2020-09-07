@@ -47,11 +47,13 @@
         </button>
     </form>
 </div>
-
 <div class="container" [hidden]="!submitted">
-    <div class="mat-headline">
-        <mat-icon>check</mat-icon> The item has been added successfully.
+    <div class="submitted-container">
+        <div class="mat-headline">
+            <mat-icon>check</mat-icon> The item has been added successfully.
+        </div>
+        <button mat-raised-button color="primary" (click)="navigateToInventoryList()" cdkFocusInitial>GO TO
+            INVENTORY</button>
     </div>
-    <button mat-raised-button color="primary" (click)="navigateToInventoryList()" cdkFocusInitial>GO TO
-        INVENTORY</button>
 </div>
+<img class="img-pallets" src="../../../assets/pallets.png" >

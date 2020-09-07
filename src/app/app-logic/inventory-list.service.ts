@@ -38,7 +38,12 @@ export class InventoryListService {
 
     updateData(item: InventoryItem) {
         return this.http.put<InventoryItem>('/api/inventory-items/' + item.id, item)
-        .pipe(tap(() => console.log ('Item ', item.id, ' was updated.')))
+            .pipe(tap(() => console.log('Item ', item.id, ' was updated.')))
+    }
+
+    deleteData(item: InventoryItem) {
+        return this.http.delete<InventoryItem>('/api/inventory-items/' + item.id)
+            .pipe(tap(() => console.log('Item ', item.id, ' was deleted.')))
     }
 
     postData(newItem: InventoryItem) {

@@ -11,7 +11,7 @@ export class NavBarComponent implements OnInit {
   links: string[] = ['inventory', 'scan', 'add-item', 'contact'];
   captions: string[] = ['Inventory', 'Scan', 'Add Item', 'Contact'];
   icons: string[] = ['list', 'qr_code_scanner', 'add', 'contact_support']
-  activeLink: string = undefined;
+  activeLink: string = '';
   background: ThemePalette = 'primary';
   appName: string = 'Inventory Manager';
 

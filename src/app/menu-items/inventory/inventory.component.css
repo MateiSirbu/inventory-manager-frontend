@@ -1,3 +1,12 @@
+@keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+
 .container
 {
     box-sizing: border-box;
@@ -12,6 +21,7 @@
 {
     width: 100%;
     background-color: rgba(255,255,255,0.3);
+    animation: 0.75s fadeIn
 }
 
 .mat-paginator
@@ -19,6 +29,7 @@
     background-color: rgba(255,255,255,0);
     display: flex;
     align-items: left;
+    animation: 0.75s fadeIn
 }
 
 .mat-cell 
@@ -34,6 +45,16 @@
     right: 50px;
 }
 
+.mat-headline
+{
+    animation: 0.75s fadeIn
+}
+
+.mat-subheading-1
+{
+    animation: 0.75s fadeIn
+}
+
 .spinner-container {
     display: flex; 
     width: 100%;
@@ -41,4 +62,5 @@
     justify-content: center; 
     align-items: center; 
     background-color: transparent; 
+    animation: fadeIn ease 1s;
   }

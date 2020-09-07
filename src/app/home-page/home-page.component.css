@@ -1,3 +1,12 @@
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
 .container
 {
     box-sizing: border-box;
@@ -10,5 +19,6 @@
 
 .mat-card
 {
-    background-color: rgba(255,255,255,0.85);
+    background-color: rgba(255,255,255,0.8);
+    animation: fadeIn ease 1s forwards;
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter } from '@angular/core';
 import { InventoryListMockService } from '../../app-logic/inventory-list-mock.service'
 import { InventoryListService } from '../../app-logic/inventory-list.service'
 import { InventoryItem } from '../../app-logic/inventory-item'
@@ -7,10 +7,12 @@ import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections'
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmItemDeletionComponent } from 'src/app/dialogs/confirm-item-deletion/confirm-item-deletion.component';
+import { ConfirmMarkAsActiveComponent } from 'src/app/dialogs/confirm-mark-as-active/confirm-mark-as-active.component'
 import { EditInventoryItemComponent } from 'src/app/dialogs/edit-inventory-item/edit-inventory-item.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { finalize, tap, switchMap } from 'rxjs/operators';
-import { merge, BehaviorSubject } from 'rxjs';
+import { merge, BehaviorSubject, pipe, forkJoin, Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inventory',
@@ -27,6 +29,7 @@ export class InventoryComponent implements OnInit {
   inventoryItems: InventoryItem[];
   activeOnly$ = new BehaviorSubject(false);
   itemsCount = 0;
+  tableRequiresRefresh: EventEmitter<any> = new EventEmitter();
 
   inventoryColumns: string[] = [
     'select',
@@ -38,6 +41,7 @@ export class InventoryComponent implements OnInit {
     'inventoryNumber',
     'createdAt',
     'modifiedAt',
+    'active',
     'editAction'
   ]
 
@@ -56,17 +60,17 @@ export class InventoryComponent implements OnInit {
 
     this.isLoading = true;
 
-    merge(this.sort.sortChange, this.activeOnly$)
+    merge(this.sort.sortChange, this.activeOnly$, this.tableRequiresRefresh)
       .subscribe(() => {
         this.paginator.pageIndex = 0
       })
 
-    merge(this.sort.sortChange, this.sort.sortChange, this.activeOnly$)
+    merge(this.sort.sortChange, this.sort.sortChange, this.activeOnly$, this.tableRequiresRefresh)
       .subscribe(() => {
         this.selection.clear()
       })
-    
-    merge(this.paginator.page, this.sort.sortChange, this.activeOnly$)
+
+    merge(this.paginator.page, this.sort.sortChange, this.activeOnly$, this.tableRequiresRefresh)
       .pipe(
         switchMap(() => {
           this.isLoading = true;
@@ -115,10 +119,25 @@ export class InventoryComponent implements OnInit {
       alert('No items selected, nothing to delete.')
     else {
       let noOfItems = this.selection.selected.length;
-      const dialogRef = this.dialog.open(ConfirmItemDeletionComponent, { width: '300px', data: noOfItems })
+      const dialogRef = this.dialog.open(ConfirmItemDeletionComponent, { width: '330px', data: noOfItems })
       dialogRef.afterClosed().subscribe(result => {
         if (result == true) {
           this.deleteSelectedItems();
+          this.selection.clear();
+        }
+      })
+    }
+  }
+
+  askMarkActive() {
+    if (this.selection.selected.length == 0)
+      alert('No items selected, nothing to mark as active.')
+    else {
+      let noOfItems = this.selection.selected.length;
+      const dialogRef = this.dialog.open(ConfirmMarkAsActiveComponent, { width: '330px', data: noOfItems })
+      dialogRef.afterClosed().subscribe(result => {
+        if (result == true) {
+          this.markSelectedItemsAsActive();
           this.selection.clear();
         }
       })
@@ -152,15 +171,24 @@ export class InventoryComponent implements OnInit {
   }
 
   deleteSelectedItems() {
-    let updatedData = this.inventoryItems;
+    const deleteRequests$: Observable<any>[] = [];
+
     this.selection.selected.forEach(selectionItem => {
-      updatedData = updatedData.filter((inventoryItem) => inventoryItem.id.toString() != selectionItem.id)
-    });
-    updatedData.forEach(item => {
-      item.active = false;
-      this.inventoryListService.updateData(item).subscribe();
-    });
-    // TODO: update mongoDB via service, this edits the table only
+      deleteRequests$.push(
+        this.inventoryListService.deleteData(selectionItem)
+      )
+    })
+
+    forkJoin(deleteRequests$).subscribe(() => {
+      this.tableRequiresRefresh.emit(null);
+    })
+  }
+
+  markSelectedItemsAsActive() {
+    this.selection.selected.forEach(selectionItem => {
+      selectionItem.active = true;
+      this.inventoryListService.updateData(selectionItem).subscribe();
+    })
   }
 
   toggleActive() {

@@ -30,7 +30,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 import { AddItemFormComponent } from './forms/add-item-form/add-item-form.component';
 import { HttpClientModule } from '@angular/common/http'
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ConfirmMarkAsActiveComponent } from './dialogs/confirm-mark-as-active/confirm-mark-as-active.component'
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
     ConfirmItemDeletionComponent,
     EditInventoryItemComponent,
     AddItemFormComponent,
+    ConfirmMarkAsActiveComponent,
   ],
   imports: [
     BrowserModule,

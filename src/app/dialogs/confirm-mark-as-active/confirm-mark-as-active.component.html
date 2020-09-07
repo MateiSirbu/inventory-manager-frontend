@@ -1,0 +1,12 @@
+<div mat-dialog-title>
+    <mat-icon aria-hidden="false" style="vertical-align: middle;">warning</mat-icon>
+    Mark as active?
+  </div>
+  <div mat-dialog-content>
+    <p>You are about to mark {{data}} {{(data==1)?"item":"items"}} as active.</p>
+    <p>Confirm?</p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">CANCEL</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>OK</button>
+  </div>
