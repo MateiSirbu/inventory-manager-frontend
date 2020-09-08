@@ -32,6 +32,9 @@ import { AddItemFormComponent } from './forms/add-item-form/add-item-form.compon
 import { HttpClientModule } from '@angular/common/http'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ConfirmMarkAsActiveComponent } from './dialogs/confirm-mark-as-active/confirm-mark-as-active.component'
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -65,7 +68,10 @@ import { ConfirmMarkAsActiveComponent } from './dialogs/confirm-mark-as-active/c
     MatCardModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { transition, trigger, query, style, animate, group, animateChild } from '@angular/animations'
 import { RouterOutlet, ActivatedRoute } from '@angular/router';
+import { SiteMapService } from './app-logic/site-map.service'
 
 @Component({
   selector: 'app-root',
@@ -35,13 +36,36 @@ import { RouterOutlet, ActivatedRoute } from '@angular/router';
     ])
   ]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private sitemapservice: SiteMapService) { }
 
   animationState: number;
+  sitemap: any;
+  innerWidth: number;
+  appName: string = 'Inventory Manager';
 
-  onActivate($event) {
-    this.animationState = this.route.firstChild.snapshot.data['routeIndex']
+  ngOnInit() {
+    this.innerWidth = window.innerWidth;
+    this.sitemap = this.sitemapservice.getData();
+  }
+
+  onActivate(event) {
+    if (this.innerWidth > 720)
+      this.animationState = this.route.firstChild.snapshot.data['routeIndex']
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.innerWidth = window.innerWidth;
+    if (this.innerWidth > 720)
+      this.animationState = this.route.firstChild.snapshot.data['routeIndex']
+  }
+
+  @HostListener('window:orientationchange', ['$event'])
+  onOrientationChange(event) {
+    this.innerWidth = window.innerWidth;
+    if (this.innerWidth > 720)
+      this.animationState = this.route.firstChild.snapshot.data['routeIndex']
   }
 }

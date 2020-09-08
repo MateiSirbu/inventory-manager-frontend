@@ -1,14 +1,13 @@
 @keyframes fadeIn {
     0% {
-      opacity:0;
+        opacity: 0;
     }
     100% {
-      opacity:1;
+        opacity: 1;
     }
-  }
+}
 
-.container
-{
+.container {
     box-sizing: border-box;
     padding: 30px 30px 30px 30px;
     background-image: url('../../../assets/storageunit_bg.png');
@@ -17,50 +16,68 @@
     overflow-y: scroll;
 }
 
-.mat-table
-{
+.mat-table-wrapper {
+    display: block;
+    overflow-x: auto;
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+    animation: 0.75s fadeIn;
+}
+
+.mat-table {
+    display: table;
     width: 100%;
-    background-color: rgba(255,255,255,0.3);
-    animation: 0.75s fadeIn
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
-.mat-paginator
-{
-    background-color: rgba(255,255,255,0);
-    display: flex;
-    align-items: left;
-    animation: 0.75s fadeIn
+.mat-row, .mat-header-row {
+    display: table-row;
 }
 
-.mat-cell 
-{
+.mat-cell, .mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.mat-paginator {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 5px;
+    justify-content: center;
+    margin-bottom: 90px;
+    backdrop-filter: blur(20px);
+    background-color: rgba(255, 255, 255, 0.2);
+    animation: 0.75s fadeIn;
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.mat-cell {
     padding: 5px 5px 5px 0px;
 }
 
-.speed-dial
-{
+.speed-dial {
     position: fixed;
     z-index: 999;
     bottom: 50px;
     right: 50px;
 }
 
-.mat-headline
-{
+.mat-headline {
     animation: 0.75s fadeIn
 }
 
-.mat-subheading-1
-{
+.mat-subheading-1 {
     animation: 0.75s fadeIn
 }
 
 .spinner-container {
-    display: flex; 
+    display: flex;
     width: 100%;
     height: 100%;
-    justify-content: center; 
-    align-items: center; 
-    background-color: transparent; 
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
     animation: fadeIn ease 1s;
-  }
+}

@@ -2,31 +2,31 @@
     <div class="mat-headline">Add an item</div>
     <form #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()">
         <div>
-            <mat-form-field [style.width.px]=350 appearance="fill">
+            <mat-form-field appearance="fill">
                 <mat-label>Item name</mat-label>
                 <input type="text" [(ngModel)]="model.name" name="#name" required matInput>
             </mat-form-field>
         </div>
         <div>
-            <mat-form-field [style.width.px]=350 appearance="fill">
+            <mat-form-field appearance="fill">
                 <mat-label>User</mat-label>
                 <input type="text" [(ngModel)]="model.user" name="#user" required matInput>
             </mat-form-field>
         </div>
         <div>
-            <mat-form-field [style.width.px]=350 appearance="fill">
+            <mat-form-field appearance="fill">
                 <mat-label>Location</mat-label>
                 <input type="text" [(ngModel)]="model.location" name="#location" required matInput>
             </mat-form-field>
         </div>
         <div>
-            <mat-form-field [style.width.px]=350 name="#inventoryNumber" appearance="fill">
+            <mat-form-field name="#inventoryNumber" appearance="fill">
                 <mat-label>Inventory №</mat-label>
                 <input type="number" [(ngModel)]="model.inventoryNumber" name="#inventoryNumber" required matInput>
             </mat-form-field>
         </div>
         <div>
-            <mat-form-field [style.width.px]=350 name="#creationDate" appearance="fill">
+            <mat-form-field name="#creationDate" appearance="fill">
                 <mat-label>Creation date</mat-label>
                 <input [(ngModel)]="model.createdAt" name="#createdAt" required matInput readonly
                     [matDatepicker]="picker">
@@ -35,7 +35,7 @@
             </mat-form-field>
         </div>
         <div>
-            <mat-form-field [style.width.px]=350 appearance="fill">
+            <mat-form-field appearance="fill">
                 <mat-label>Description</mat-label>
                 <textarea [(ngModel)]="model.description" #description name="#description" matInput
                     maxLength="200"></textarea>
@@ -56,4 +56,4 @@
             INVENTORY</button>
     </div>
 </div>
-<img class="img-pallets" src="../../../assets/pallets.png" >
+<img class="img-pallets" src="../../../assets/pallets.png">

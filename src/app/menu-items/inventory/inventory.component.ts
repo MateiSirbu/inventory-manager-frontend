@@ -10,9 +10,11 @@ import { ConfirmItemDeletionComponent } from 'src/app/dialogs/confirm-item-delet
 import { ConfirmMarkAsActiveComponent } from 'src/app/dialogs/confirm-mark-as-active/confirm-mark-as-active.component'
 import { EditInventoryItemComponent } from 'src/app/dialogs/edit-inventory-item/edit-inventory-item.component';
 import { FormBuilder, Validators } from '@angular/forms';
-import { finalize, tap, switchMap } from 'rxjs/operators';
-import { merge, BehaviorSubject, pipe, forkJoin, Observable } from 'rxjs';
+import { finalize, tap, switchMap, catchError } from 'rxjs/operators';
+import { merge, BehaviorSubject, pipe, forkJoin, Observable, EMPTY } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-inventory',
@@ -54,7 +56,7 @@ export class InventoryComponent implements OnInit {
   }
 
   constructor(private inventoryListMockService: InventoryListMockService, public dialog: MatDialog, private fb: FormBuilder,
-    private inventoryListService: InventoryListService) { }
+    private inventoryListService: InventoryListService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
 
@@ -95,6 +97,7 @@ export class InventoryComponent implements OnInit {
         (error) => {
           console.log('Table could not be filled with data', error);
           this.isLoading = false;
+          this.openSnackBarAlert(`${error.status} ${error.statusText}. Cannot fill table with data.`);
         }
       );
 
@@ -165,7 +168,16 @@ export class InventoryComponent implements OnInit {
         item.inventoryNumber = itemInfoForm.value.inventoryNumber;
         item.createdAt = itemInfoForm.value.createdAt;
         item.modifiedAt = new Date();
-        this.inventoryListService.updateData(item).subscribe();
+        this.inventoryListService.updateData(item)
+          .pipe(tap((resp) => {
+            if (resp != null)
+              this.openSnackBar(`Item ${item.name} updated successfully.`)
+          }))
+          .pipe(catchError((error: HttpErrorResponse) => {
+            this.openSnackBarAlert(`${error.status} ${error.statusText}. Cannot update item.`);
+            return EMPTY;
+          }))
+          .subscribe();
       }
     })
   }
@@ -173,27 +185,72 @@ export class InventoryComponent implements OnInit {
   deleteSelectedItems() {
     const deleteRequests$: Observable<any>[] = [];
 
+    let noOfItems = this.selection.selected.length;
+
     this.selection.selected.forEach(selectionItem => {
       deleteRequests$.push(
         this.inventoryListService.deleteData(selectionItem)
       )
     })
 
-    forkJoin(deleteRequests$).subscribe(() => {
+    forkJoin(deleteRequests$)
+    .pipe(tap((resp) => {
+      if (resp != null)
+        this.openSnackBar(`${noOfItems} ${(noOfItems == 1) ? "item" : "items" } deleted successfully.`)
+    }))
+    .pipe(catchError((error: HttpErrorResponse) => {
+      this.openSnackBarAlert(`${error.status} ${error.statusText}. Cannot delete ${(noOfItems == 1) ? "item" : "items" }.`);
+      return EMPTY;
+    }))
+    .subscribe(() => {
       this.tableRequiresRefresh.emit(null);
     })
   }
 
   markSelectedItemsAsActive() {
+    const markItemRequests$: Observable<any>[] = [];
+
+    let noOfItems = this.selection.selected.length;
+
     this.selection.selected.forEach(selectionItem => {
       selectionItem.active = true;
-      this.inventoryListService.updateData(selectionItem).subscribe();
     })
+
+    this.selection.selected.forEach(selectionItem => {
+      markItemRequests$.push(
+        this.inventoryListService.updateData(selectionItem)
+      )
+    })
+
+    forkJoin(markItemRequests$)
+    .pipe(tap((resp) => {
+      if (resp != null)
+        this.openSnackBar(`${noOfItems} ${(noOfItems == 1) ? "item" : "items" } marked as active.`)
+    }))
+    .pipe(catchError((error: HttpErrorResponse) => {
+      this.openSnackBarAlert(`${error.status} ${error.statusText}. Cannot mark ${(noOfItems == 1) ? "item" : "items" } as active.`);
+      return EMPTY;
+    }))
+    .subscribe();
+
   }
 
   toggleActive() {
     this.paginator.pageIndex = 0
     this.activeOnly = !this.activeOnly
+  }
+
+  openSnackBar(message) {
+    this.snackBar.open(message, 'OK', {
+      duration: 3000,
+      panelClass: ['my-snack-bar']
+    });
+  }
+
+  openSnackBarAlert(message) {
+    this.snackBar.open(message, 'OK', {
+      panelClass: ['my-snack-bar-alert']
+    });
   }
 
 }

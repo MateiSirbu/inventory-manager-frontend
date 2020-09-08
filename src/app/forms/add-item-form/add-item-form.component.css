@@ -1,14 +1,13 @@
 @keyframes fadeIn {
     0% {
-      opacity:0;
+        opacity: 0;
     }
     100% {
-      opacity:1;
+        opacity: 1;
     }
-  }
+}
 
-.container
-{
+.container {
     box-sizing: border-box;
     padding: 30px 30px 30px 30px;
     background-image: url('../../../assets/storageunit_bg.png');
@@ -18,33 +17,34 @@
     z-index: 10;
 }
 
-.add-button
-{
+.add-button {
     position: fixed;
     z-index: 999;
     bottom: 50px;
     right: 50px;
 }
 
-@media screen and (max-width: 780px) {
-    .img-pallets {
-        display: none !important;
+@media screen and (max-width: 460px) {
+    .mat-form-field {
+        width: 100%;
     }
 }
 
-.img-pallets
-{
-    position: fixed;
-    bottom: 70px;
-    right: 70px;
-    width: 340px;
-    height: 280px;
-    pointer-events: none;
-    z-index: -1;
-    opacity: 0.6;
+mat-form-field {
+    width: 400px;
 }
 
-.submitted-container
-{
+.img-pallets {
+    position: absolute;
+    top: 10%;
+    bottom: 10%;
+    right: 0px;
+    height: 80%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.3;
+}
+
+.submitted-container {
     animation: 0.75s fadeIn
 }

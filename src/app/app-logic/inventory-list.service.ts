@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { InventoryItem } from './inventory-item';
 import { Observable } from 'rxjs';
 import { tap, map, delay, catchError } from 'rxjs/operators';
@@ -38,7 +38,7 @@ export class InventoryListService {
 
     updateData(item: InventoryItem) {
         return this.http.put<InventoryItem>('/api/inventory-items/' + item.id, item)
-            .pipe(tap(() => console.log('Item ', item.id, ' was updated.')))
+            .pipe(tap(() => console.log('Item ' + item.id, + 'was updated.')))
     }
 
     deleteData(item: InventoryItem) {
@@ -51,6 +51,11 @@ export class InventoryListService {
             .pipe(
                 tap((resp: InventoryItem) => console.log(`Added item: `, resp))
             )
+    }
+
+    errorHandler(error: HttpErrorResponse) {
+        console.error(error);
+        return Observable.throw(error.message || "Server error.");
     }
 
 }

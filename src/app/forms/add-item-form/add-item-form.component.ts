@@ -3,6 +3,10 @@ import { InventoryListMockService } from 'src/app/app-logic/inventory-list-mock.
 import { InventoryItem } from 'src/app/app-logic/inventory-item';
 import { Router } from '@angular/router';
 import { InventoryListService } from 'src/app/app-logic/inventory-list.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { tap, catchError } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+import { EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-add-item-form',
@@ -13,7 +17,8 @@ export class AddItemFormComponent {
 
   constructor(private inventoryMockService: InventoryListMockService,
      private route: Router,
-     private inventoryListService: InventoryListService) { }
+     private inventoryListService: InventoryListService,
+     private snackBar: MatSnackBar) { }
 
   submitted = false;
 
@@ -29,14 +34,35 @@ export class AddItemFormComponent {
   })
 
   onSubmit() {
-    this.submitted = true;
     // this.model.id = this.inventoryMockService.getLastId() + 1; 
     // unnecessary, mongoDB does this for you. Also not required by API, throws internal error
-    this.inventoryListService.postData(this.model).subscribe();
+    this.inventoryListService.postData(this.model)
+    .pipe(tap((resp) => {
+      if (resp != null)
+        this.submitted = true;
+    }))
+    .pipe(catchError((error: HttpErrorResponse) => {
+      this.openSnackBarAlert(`${error.status} ${error.statusText}. Cannot add item.`);
+      return EMPTY;
+    }))
+    .subscribe();
   }
 
   navigateToInventoryList() {
     this.route.navigate(['/inventory']);
+  }
+
+  openSnackBar(message) {
+    this.snackBar.open(message, 'OK', {
+      duration: 3000,
+      panelClass: ['my-snack-bar']
+    });
+  }
+
+  openSnackBarAlert(message) {
+    this.snackBar.open(message, 'OK', {
+      panelClass: ['my-snack-bar-alert']
+    });
   }
 
 }

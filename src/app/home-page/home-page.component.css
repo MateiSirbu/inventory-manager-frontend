@@ -19,6 +19,7 @@
 
 .mat-card
 {
-    background-color: rgba(255,255,255,0.8);
+    background-color: rgba(255,255,255,0.6);
     animation: fadeIn ease 1s forwards;
+    backdrop-filter: blur(16px)
 }
