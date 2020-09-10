@@ -1,0 +1,18 @@
+<div class="container" *ngIf="itemIsFound">
+    <div class="mat-headline">Scanned item</div>
+    <p><b>ID: </b>{{item.id}}</p>
+    <p><b>Name: </b>{{item.name}}</p>
+    <p><b>Description: </b>{{item.description}}</p>
+    <p><b>User: </b>{{item.user}}</p>
+    <p><b>Location: </b>{{item.location}}</p>
+    <p><b>Inventory №: </b>{{item.inventoryNumber}}</p>
+    <p><b>Created At: </b>{{item.createdAt}}</p>
+    <p><b>Modified At: </b>{{item.modifiedAt}}</p>
+    <p><b>Active: </b><mat-icon style="vertical-align: middle;" *ngIf="item.active">done</mat-icon><mat-icon style="vertical-align: middle;" *ngIf="!item.active">clear</mat-icon></p>
+    <qrcode [qrdata]="item.id" [size]="256" [level]="'M'"></qrcode>
+    <img class="img-qr-code" src="../../../assets/qr_code.png">
+</div>
+<div class="container" *ngIf="!itemIsFound">
+    <div class="mat-headline">:(</div>
+    <p>Item not found.</p>
+</div>

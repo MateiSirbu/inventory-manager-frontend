@@ -51,21 +51,21 @@ export class AppComponent implements OnInit {
   }
 
   onActivate(event) {
-    if (this.innerWidth > 720)
+    if (this.innerWidth > 830)
       this.animationState = this.route.firstChild.snapshot.data['routeIndex']
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.innerWidth = window.innerWidth;
-    if (this.innerWidth > 720)
+    if (this.innerWidth > 830)
       this.animationState = this.route.firstChild.snapshot.data['routeIndex']
   }
 
   @HostListener('window:orientationchange', ['$event'])
   onOrientationChange(event) {
     this.innerWidth = window.innerWidth;
-    if (this.innerWidth > 720)
+    if (this.innerWidth > 830)
       this.animationState = this.route.firstChild.snapshot.data['routeIndex']
   }
 }

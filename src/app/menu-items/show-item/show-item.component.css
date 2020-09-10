@@ -17,16 +17,3 @@
     z-index: -1;
     opacity: 0.2;
 }
-
-.centered {
-    margin: 0 auto;
-    display: flex;
-    justify-content: centered;
-}
-
-.camera {
-    width: 600px;
-    height: 600px;
-    padding: 30px;
-    box-sizing: border-box;
-}

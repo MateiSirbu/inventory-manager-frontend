@@ -22,10 +22,12 @@
     "@angular/platform-browser-dynamic": "~10.0.6",
     "@angular/router": "~10.0.6",
     "@ecodev/fab-speed-dial": "^6.0.0",
+    "@zxing/ngx-scanner": "^3.0.1",
+    "angularx-qrcode": "^10.0.10",
+    "inventory-interfaces": "file:../Interfaces",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
-    "zone.js": "~0.10.3",
-    "inventory-interfaces": "file:../Interfaces"
+    "zone.js": "~0.10.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1000.5",

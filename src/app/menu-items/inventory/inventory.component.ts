@@ -171,7 +171,7 @@ export class InventoryComponent implements OnInit {
         this.inventoryListService.updateData(item)
           .pipe(tap((resp) => {
             if (resp != null)
-              this.openSnackBar(`Item ${item.name} updated successfully.`)
+              this.openSnackBar(`Item \'${item.name}\' updated successfully.`)
           }))
           .pipe(catchError((error: HttpErrorResponse) => {
             this.openSnackBarAlert(`${error.status} ${error.statusText}. Cannot update item.`);

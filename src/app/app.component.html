@@ -12,7 +12,7 @@
 
     <div class="container">
         <div class="header">
-            <nav mat-tab-nav-bar backgroundColor="primary" *ngIf="innerWidth <= 720px">
+            <nav mat-tab-nav-bar backgroundColor="primary" *ngIf="innerWidth <= 830px">
                 <button mat-flat-button color="primary" (click)="drawer.toggle()">
                     <mat-icon aria-hidden="false">menu</mat-icon>
                 </button>
@@ -21,7 +21,7 @@
                     {{ appName }}
                 </button>
             </nav>
-            <app-navbar *ngIf="innerWidth > 720px"></app-navbar>
+            <app-navbar *ngIf="innerWidth > 830px"></app-navbar>
         </div>
         <div class="content" [@animRoutes]="animationState">
             <router-outlet (activate)="onActivate($event)"></router-outlet>

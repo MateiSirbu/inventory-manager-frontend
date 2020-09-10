@@ -14,6 +14,10 @@ export class InventoryListService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
+    getDataById(id: string) {
+        return this.http.get<InventoryItem>('/api/inventory-items/' + id);
+    }
+
     getData(pageNumber = 1, pageSize = 5, activeOnly = false, sorting = ''): Observable<[InventoryItem[], number]> {
         let params = new HttpParams()
             .set('activeOnly', activeOnly ? 'true' : 'false')

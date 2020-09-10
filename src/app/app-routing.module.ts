@@ -5,13 +5,15 @@ import { ContactComponent } from './menu-items/contact/contact.component';
 import { InventoryComponent } from './menu-items/inventory/inventory.component';
 import { ScanComponent } from './menu-items/scan/scan.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { ShowItemComponent } from './menu-items/show-item/show-item.component'
 
 const routes: Routes = [
   { path: '', component: HomePageComponent, data: { routeIndex: 0 } },
   { path: 'inventory', component: InventoryComponent, data: { routeIndex: 1 } },
   { path: 'scan', component: ScanComponent, data: { routeIndex: 2 } },
   { path: 'add-item', component: AddItemComponent, data: { routeIndex: 3 } },
-  { path: 'contact', component: ContactComponent, data: { routeIndex: 4 } }
+  { path: 'contact', component: ContactComponent, data: { routeIndex: 4 } },
+  { path: 'item/:id', component: ShowItemComponent}
 ];
 
 @NgModule({

@@ -1,5 +1,20 @@
 <div class="container">
     <div class="mat-headline">Scan a QR code</div>
-    <div class="mat-body">More content coming up...</div>
-    <img class="img-qr-code" src="../../../assets/qr_code.png" >
+    <img class="img-qr-code" src="../../../assets/qr_code.png">
+    <div class="mat-body" *ngIf="availableDevices == null">No devices found or denied access.</div>
+    <div class="mat-body" *ngIf="data != null">{{data}}</div>
+    <div class="centered">
+        <div class="camera">
+            <zxing-scanner 
+                [torch]="torchEnabled" 
+                [tryHarder]="tryHarder"
+                [(device)]="currentDevice"
+                [formats]="formats"
+                (permissionResponse)="onPermissionResponse($event)"
+                (camerasFound)="onCamerasFound($event)"
+                (scanSuccess)="onScanSuccess($event)"
+            >
+            </zxing-scanner>
+        </div>
+    </div>
 </div>

@@ -1,44 +1,48 @@
 <form [formGroup]="form">
-<div mat-dialog-title>
-    <mat-icon aria-hidden="false" style="vertical-align: middle;">edit</mat-icon>
-    Edit item {{form.controls['id'].value}}
-</div>
-<div mat-dialog-content>
-    <mat-form-field [style.width.%]=100 appearance="fill">
-        <mat-label>Name:</mat-label>
-        <input type="text" matInput formControlName="name">
-        <mat-error>Required field</mat-error>
-    </mat-form-field>
-    <mat-form-field [style.width.%]=100 appearance="fill">
-        <mat-label>User:</mat-label>
-        <input type="text" matInput formControlName="user">
-        <mat-error>Required field</mat-error>
-    </mat-form-field>
-    <mat-form-field [style.width.%]=100 appearance="fill">
-        <mat-label>Location:</mat-label>
-        <input type="text" matInput formControlName="location">
-        <mat-error>Required field</mat-error>
-    </mat-form-field>
-    <mat-form-field [style.width.%]=100 appearance="fill">
-        <mat-label>Inventory №:</mat-label>
-        <input type="number" matInput formControlName="inventoryNumber">
-        <mat-error>Required field</mat-error>
-    </mat-form-field>
-    <mat-form-field [style.width.%]=100 appearance="fill">
-        <mat-label>Creation date</mat-label>
-        <input matInput readonly formControlName="createdAt" [matDatepicker]="picker">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-        <mat-error>Required field</mat-error>
-    </mat-form-field>
-    <mat-form-field [style.width.%]=100 appearance="fill">
-        <mat-label>Description:</mat-label>
-        <textarea type="text" matInput formControlName="description"></textarea>
-        <mat-error>Description exceeds 200 characters</mat-error>
-    </mat-form-field>
-</div>
-<div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">CANCEL</button>
-    <button type="submit" [disabled]="!form.valid" mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>OK</button>
-</div>
+    <div mat-dialog-title>
+        <mat-icon aria-hidden="false" style="vertical-align: middle;">edit</mat-icon>
+        Edit item {{form.controls['id'].value}}
+    </div>
+    <div mat-dialog-content>
+        <mat-form-field [style.width.%]=100 appearance="fill">
+            <mat-label>Name:</mat-label>
+            <input type="text" matInput formControlName="name">
+            <mat-error>Required field</mat-error>
+        </mat-form-field>
+        <mat-form-field [style.width.%]=100 appearance="fill">
+            <mat-label>User:</mat-label>
+            <input type="text" matInput formControlName="user">
+            <mat-error>Required field</mat-error>
+        </mat-form-field>
+        <mat-form-field [style.width.%]=100 appearance="fill">
+            <mat-label>Location:</mat-label>
+            <input type="text" matInput formControlName="location">
+            <mat-error>Required field</mat-error>
+        </mat-form-field>
+        <mat-form-field [style.width.%]=100 appearance="fill">
+            <mat-label>Inventory №:</mat-label>
+            <input type="number" matInput formControlName="inventoryNumber">
+            <mat-error>Required field</mat-error>
+        </mat-form-field>
+        <mat-form-field [style.width.%]=100 appearance="fill">
+            <mat-label>Creation date</mat-label>
+            <input matInput readonly formControlName="createdAt" [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error>Required field</mat-error>
+        </mat-form-field>
+        <mat-form-field [style.width.%]=100 appearance="fill">
+            <mat-label>Description:</mat-label>
+            <textarea type="text" matInput formControlName="description"></textarea>
+            <mat-error>Description exceeds 200 characters</mat-error>
+        </mat-form-field>
+        <div class="qrcode">
+            <qrcode [qrdata]="form.controls['id'].value" [size]="256" [level]="'M'"></qrcode>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">CANCEL</button>
+        <button type="submit" [disabled]="!form.valid" mat-raised-button color="primary" [mat-dialog-close]="true"
+            cdkFocusInitial>OK</button>
+    </div>
 </form>

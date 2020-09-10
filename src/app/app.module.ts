@@ -35,6 +35,9 @@ import { ConfirmMarkAsActiveComponent } from './dialogs/confirm-mark-as-active/c
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { QRCodeModule } from 'angularx-qrcode';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { ShowItemComponent } from './menu-items/show-item/show-item.component'
 
 @NgModule({
   declarations: [
@@ -45,6 +48,7 @@ import { MatListModule } from '@angular/material/list';
     EditInventoryItemComponent,
     AddItemFormComponent,
     ConfirmMarkAsActiveComponent,
+    ShowItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,7 +75,10 @@ import { MatListModule } from '@angular/material/list';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    QRCodeModule,
+    ZXingScannerModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
