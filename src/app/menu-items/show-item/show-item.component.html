@@ -1,24 +1,24 @@
 <div class="container" *ngIf="itemIsFound">
-    <div class="mat-headline">Item preview</div>
+    <h1>About this item</h1>
     <div id="print-section">
-        <p><b>ID: </b>{{item.id}}</p>
-        <p><b>Name: </b>{{item.name}}</p>
-        <p><b>Description: </b>{{item.description}}</p>
-        <p><b>User: </b>{{item.user}}</p>
-        <p><b>Location: </b>{{item.location}}</p>
-        <p><b>Inventory №: </b>{{item.inventoryNumber}}</p>
-        <p><b>Created at: </b>{{item.createdAt}}</p>
-        <p><b>Modified at: </b>{{item.modifiedAt}}</p>
-        <p><b>Active: </b>
-            <mat-icon style="vertical-align: middle;" *ngIf="item.active">done</mat-icon>
-            <mat-icon style="vertical-align: middle;" *ngIf="!item.active">clear</mat-icon>
-        </p>
-        <p><b>QR code: </b></p>
+        <div class="item-info">
+            <p><b>ID: </b>{{item.id}}</p>
+            <p><b>Name: </b>{{item.name}}</p>
+            <p><b>Description: </b>{{item.description}}</p>
+            <p><b>User: </b>{{item.user}}</p>
+            <p><b>Location: </b>{{item.location}}</p>
+            <p><b>Inventory №: </b>{{item.inventoryNumber}}</p>
+            <p><b>Created at: </b>{{item.createdAt}}</p>
+            <p><b>Modified at: </b>{{item.modifiedAt}}</p>
+            <p><b>Active: </b>
+                <mat-icon *ngIf="item.active">done</mat-icon>
+                <mat-icon *ngIf="!item.active">clear</mat-icon>
+            </p>
+        </div>
         <qrcode elementType="img" [qrdata]="item.id" [size]="256" [level]="'M'"></qrcode>
     </div>
     <img class="img-qr-code" src="../../../assets/qr_code.png">
-    <button type="submit" [printStyle]="{p : {'box-sizing':'border-box','padding-left': '16px', 'padding-top': '16px'}}"
-        printSectionId="print-section" ngxPrint [useExistingCss]="true" class="print-button"
+    <button type="submit" ngxPrint printSectionId="print-section" [useExistingCss]="true" class="print-button"
         matTooltip="Print item details" mat-fab color="primary">
         <mat-icon>print</mat-icon>
     </button>

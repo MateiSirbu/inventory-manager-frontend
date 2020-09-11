@@ -1,7 +1,15 @@
 <form [formGroup]="form">
     <div mat-dialog-title>
         <mat-icon aria-hidden="false" style="vertical-align: middle;">edit</mat-icon>
-        Edit item {{form.controls['id'].value}}
+        Edit item
+    </div>
+    <div class="qrcode-container">
+        <div class="qrcode-code">
+            <qrcode [qrdata]="form.controls['id'].value" [size]="256" [margin]="2" [level]="'M'"></qrcode>
+        </div>
+        <div class="qrcode-caption">
+            {{form.controls['id'].value}}
+        </div>
     </div>
     <div mat-dialog-content>
         <mat-form-field [style.width.%]=100 appearance="fill">
@@ -36,9 +44,6 @@
             <textarea type="text" matInput formControlName="description"></textarea>
             <mat-error>Description exceeds 200 characters</mat-error>
         </mat-form-field>
-        <div class="qrcode">
-            <qrcode [qrdata]="form.controls['id'].value" [size]="256" [level]="'M'"></qrcode>
-        </div>
     </div>
     <div mat-dialog-actions>
         <button mat-button (click)="onNoClick()">CANCEL</button>

@@ -18,9 +18,24 @@
     opacity: 0.2;
 }
 
+.item-info
+{
+    box-sizing: border-box;
+    padding-top: 20px;
+}
+
 .print-button {
     position: fixed;
     z-index: 999;
     bottom: 50px;
     right: 50px;
+}
+
+qrcode {
+    display: inline-block;
+    padding-top: 20px;
+}
+
+mat-icon {
+    vertical-align: middle;
 }

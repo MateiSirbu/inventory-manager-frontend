@@ -1,12 +1,31 @@
-.mat-dialog-actions
-{
+.mat-dialog-actions {
     justify-content: flex-end
 }
 
-.qrcode
-{
+.qrcode-container {
+    float: left; 
     display: flex;
     width: 100%;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.qrcode-code {
+    display: flex;
+    width: 100%;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.qrcode-caption {
+    display: flex;
+    width: 100%;
+    display: flex;
+    font-family: Consolas, Monaco, "Courier New", "Lucida Console", monospace;
+    font-size: 12px;
+    justify-content: center;
 }
