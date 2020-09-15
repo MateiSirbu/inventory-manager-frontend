@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BarcodeFormat } from '@zxing/library';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-scan',
@@ -17,7 +18,7 @@ export class ScanComponent implements OnInit {
   hasPermission: boolean;
   data: string = null;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -33,6 +34,14 @@ export class ScanComponent implements OnInit {
   onScanSuccess(data: string) {
     this.data = data;
     this.router.navigate(['/item/' + data]);
+    this.openSnackBar("Item scanned successfully.")
+  }
+
+  openSnackBar(message) {
+    this.snackBar.open(message, 'OK', {
+      duration: 3000,
+      panelClass: ['my-snack-bar']
+    });
   }
 
 }

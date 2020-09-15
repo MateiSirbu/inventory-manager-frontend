@@ -160,18 +160,30 @@ export class InventoryComponent implements OnInit {
     const dialogRef = this.dialog.open(EditInventoryItemComponent, { width: '400px', data: itemInfoForm })
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
-        item.id = itemInfoForm.value.id;
-        item.name = itemInfoForm.value.name;
-        item.user = itemInfoForm.value.user;
-        item.description = itemInfoForm.value.description;
-        item.location = itemInfoForm.value.location;
-        item.inventoryNumber = itemInfoForm.value.inventoryNumber;
-        item.createdAt = itemInfoForm.value.createdAt;
-        item.modifiedAt = new Date();
-        this.inventoryListService.updateData(item)
+        let updatedItem: InventoryItem = {
+          id: itemInfoForm.value.id,
+          name: itemInfoForm.value.name,
+          user: itemInfoForm.value.user,
+          description: itemInfoForm.value.description,
+          location: itemInfoForm.value.location,
+          inventoryNumber: itemInfoForm.value.inventoryNumber,
+          createdAt: itemInfoForm.value.createdAt,
+          modifiedAt: new Date(),
+          active: item.active
+        }
+        this.inventoryListService.updateData(updatedItem)
           .pipe(tap((resp) => {
-            if (resp != null)
+            if (resp != null) {
               this.openSnackBar(`Item \'${item.name}\' updated successfully.`)
+              item.id = itemInfoForm.value.id;
+              item.name = itemInfoForm.value.name;
+              item.user = itemInfoForm.value.user;
+              item.description = itemInfoForm.value.description;
+              item.location = itemInfoForm.value.location;
+              item.inventoryNumber = itemInfoForm.value.inventoryNumber;
+              item.createdAt = itemInfoForm.value.createdAt;
+              item.modifiedAt = new Date();
+            }
           }))
           .pipe(catchError((error: HttpErrorResponse) => {
             this.openSnackBarAlert(`${error.status} ${error.statusText}. Cannot update item.`);
@@ -194,17 +206,17 @@ export class InventoryComponent implements OnInit {
     })
 
     forkJoin(deleteRequests$)
-    .pipe(tap((resp) => {
-      if (resp != null)
-        this.openSnackBar(`${noOfItems} ${(noOfItems == 1) ? "item" : "items" } deleted successfully.`)
-    }))
-    .pipe(catchError((error: HttpErrorResponse) => {
-      this.openSnackBarAlert(`${error.status} ${error.statusText}. Cannot delete ${(noOfItems == 1) ? "item" : "items" }.`);
-      return EMPTY;
-    }))
-    .subscribe(() => {
-      this.tableRequiresRefresh.emit(null);
-    })
+      .pipe(tap((resp) => {
+        if (resp != null)
+          this.openSnackBar(`${noOfItems} ${(noOfItems == 1) ? "item" : "items"} deleted successfully.`)
+      }))
+      .pipe(catchError((error: HttpErrorResponse) => {
+        this.openSnackBarAlert(`${error.status} ${error.statusText}. Cannot delete ${(noOfItems == 1) ? "item" : "items"}.`);
+        return EMPTY;
+      }))
+      .subscribe(() => {
+        this.tableRequiresRefresh.emit(null);
+      })
   }
 
   markSelectedItemsAsActive() {
@@ -212,26 +224,34 @@ export class InventoryComponent implements OnInit {
 
     let noOfItems = this.selection.selected.length;
 
-    this.selection.selected.forEach(selectionItem => {
+    let markedSelection = this.selection.selected.map(item => Object.assign({}, item));
+
+    markedSelection.forEach(selectionItem => {
+      console.log(selectionItem);
+    })
+
+    markedSelection.forEach(selectionItem => {
       selectionItem.active = true;
     })
 
-    this.selection.selected.forEach(selectionItem => {
+    markedSelection.forEach(selectionItem => {
       markItemRequests$.push(
         this.inventoryListService.updateData(selectionItem)
       )
     })
 
     forkJoin(markItemRequests$)
-    .pipe(tap((resp) => {
-      if (resp != null)
-        this.openSnackBar(`${noOfItems} ${(noOfItems == 1) ? "item" : "items" } marked as active.`)
-    }))
-    .pipe(catchError((error: HttpErrorResponse) => {
-      this.openSnackBarAlert(`${error.status} ${error.statusText}. Cannot mark ${(noOfItems == 1) ? "item" : "items" } as active.`);
-      return EMPTY;
-    }))
-    .subscribe();
+      .pipe(tap((resp) => {
+        if (resp != null)
+          this.openSnackBar(`${noOfItems} ${(noOfItems == 1) ? "item" : "items"} marked as active.`)
+      }))
+      .pipe(catchError((error: HttpErrorResponse) => {
+        this.openSnackBarAlert(`${error.status} ${error.statusText}. Cannot mark ${(noOfItems == 1) ? "item" : "items"} as active.`);
+        return EMPTY;
+      }))
+      .subscribe(() => {
+        this.tableRequiresRefresh.emit(null);
+      })
 
   }
 
