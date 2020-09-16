@@ -30,3 +30,8 @@
     padding: 30px;
     box-sizing: border-box;
 }
+
+mat-icon
+{
+    vertical-align: middle;
+}

@@ -15,7 +15,7 @@ export class ScanComponent implements OnInit {
   currentDevice: MediaDeviceInfo = null;
   formats = [BarcodeFormat.QR_CODE];
   availableDevices: MediaDeviceInfo[];
-  hasPermission: boolean;
+  hasPermission: boolean = null;
   data: string = null;
 
   constructor(private router: Router, private snackBar: MatSnackBar) { }
@@ -34,7 +34,7 @@ export class ScanComponent implements OnInit {
   onScanSuccess(data: string) {
     this.data = data;
     this.router.navigate(['/item/' + data]);
-    this.openSnackBar("Item scanned successfully.")
+    this.openSnackBar("Found QR code.")
   }
 
   openSnackBar(message) {

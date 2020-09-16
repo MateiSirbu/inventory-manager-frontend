@@ -1,8 +1,9 @@
 <div class="container">
     <div class="mat-headline">Scan a QR code</div>
     <img class="img-qr-code" src="../../../assets/qr_code.png">
-    <div class="mat-body" *ngIf="availableDevices == null">No devices found or denied access.</div>
-    <div class="mat-body" *ngIf="data != null">{{data}}</div>
+    <div class="mat-title" *ngIf="hasPermission == null"><mat-icon>warning</mat-icon>&nbsp;Asking for permission...</div>
+    <div class="mat-title" *ngIf="hasPermission == false"><mat-icon>error</mat-icon>&nbsp;Permission denied. Check your browser settings.</div>
+    <div class="mat-title" *ngIf="hasPermission == true && availableDevices != null"><img src="../../../assets/looking_for_you.gif" height="16px">&nbsp;Looking for code...</div>
     <div class="centered">
         <div class="camera">
             <zxing-scanner 
