@@ -65,8 +65,8 @@
           "options": {
             "browserTarget": "inventory:build",
             "ssl": true,
-            "sslKey": "./src/ssl/mydomain.key",
-            "sslCert": "./src/ssl/mydomain.crt"
+            "sslKey": "./src/ssl/frontend.key",
+            "sslCert": "./src/ssl/frontend.crt"
           },
           "configurations": {
             "production": {
