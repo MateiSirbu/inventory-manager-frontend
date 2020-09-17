@@ -11,7 +11,7 @@
             {{form.controls['id'].value}}
         </div>
     </div>
-    <div mat-dialog-content>
+    <mat-dialog-content>
         <mat-form-field [style.width.%]=100 appearance="fill">
             <mat-label>Name:</mat-label>
             <input type="text" matInput formControlName="name">
@@ -44,10 +44,9 @@
             <textarea type="text" matInput formControlName="description"></textarea>
             <mat-error>Description exceeds 200 characters</mat-error>
         </mat-form-field>
-    </div>
-    <div mat-dialog-actions>
+    </mat-dialog-content>
+    <mat-dialog-actions>
         <button mat-button (click)="onNoClick()">CANCEL</button>
-        <button type="submit" [disabled]="!form.valid" mat-raised-button color="primary" [mat-dialog-close]="true"
-            cdkFocusInitial>OK</button>
-    </div>
+        <button type="submit" [disabled]="!form.valid" mat-raised-button color="primary" [mat-dialog-close]="true">OK</button>
+    </mat-dialog-actions>
 </form>

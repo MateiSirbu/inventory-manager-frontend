@@ -23,7 +23,12 @@
         <mat-icon>print</mat-icon>
     </button>
 </div>
-<div class="container" *ngIf="!itemIsFound">
+<div class="container" *ngIf="!itemIsFound && searchedForItem">
     <div class="mat-headline">:(</div>
     <p>Item not found.</p>
+</div>
+<div class="container" *ngIf="!searchedForItem">
+    <div class="mat-title">
+        <mat-icon>search</mat-icon>&nbsp;Searching for item...
+    </div>
 </div>

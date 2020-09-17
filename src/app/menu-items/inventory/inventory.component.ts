@@ -157,7 +157,7 @@ export class InventoryComponent implements OnInit {
       inventoryNumber: [item.inventoryNumber, Validators.required],
       createdAt: [item.createdAt, Validators.required]
     })
-    const dialogRef = this.dialog.open(EditInventoryItemComponent, { width: '400px', data: itemInfoForm })
+    const dialogRef = this.dialog.open(EditInventoryItemComponent, { width: '400px', maxHeight: '90vh', data: itemInfoForm })
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         let updatedItem: InventoryItem = {
