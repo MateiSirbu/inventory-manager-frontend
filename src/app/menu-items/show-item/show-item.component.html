@@ -18,7 +18,7 @@
         <qrcode elementType="img" [qrdata]="item.id" [size]="256" [level]="'M'"></qrcode>
     </div>
     <img class="img-qr-code" src="../../../assets/qr_code.png">
-    <button type="submit" ngxPrint printSectionId="print-section" [useExistingCss]="true" class="print-button"
+    <button ngxPrint printSectionId="print-section" [useExistingCss]="true" class="print-button"
         matTooltip="Print item details" mat-fab color="primary">
         <mat-icon>print</mat-icon>
     </button>

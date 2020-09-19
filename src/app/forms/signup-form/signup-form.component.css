@@ -17,7 +17,7 @@
     z-index: 10;
 }
 
-.add-button {
+.signup-button {
     position: fixed;
     z-index: 999;
     bottom: 50px;
@@ -34,7 +34,7 @@ mat-form-field {
     width: 400px;
 }
 
-.img-pallets {
+.img-keychain {
     position: absolute;
     top: 10%;
     bottom: 10%;

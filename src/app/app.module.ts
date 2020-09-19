@@ -39,6 +39,10 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { ShowItemComponent } from './menu-items/show-item/show-item.component';
 import { NgxPrintModule } from 'ngx-print';
+import { LoginComponent } from './menu-items/login/login.component';
+import { LoginFormComponent } from './forms/login-form/login-form.component';
+import { SignupFormComponent } from './forms/signup-form/signup-form.component';
+import { SignupComponent } from './menu-items/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +54,10 @@ import { NgxPrintModule } from 'ngx-print';
     AddItemFormComponent,
     ConfirmMarkAsActiveComponent,
     ShowItemComponent,
+    LoginComponent,
+    LoginFormComponent,
+    SignupFormComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
