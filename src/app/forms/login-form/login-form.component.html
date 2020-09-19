@@ -11,10 +11,10 @@
         <div>
             <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
-                <input type="password" [(ngModel)]="model.password" name="#password" required matInput>
+                <input type="password" [(ngModel)]="model.hash" name="#password" required matInput>
             </mat-form-field>
         </div>
-        <button type="submit" [disabled]="!f.form.valid" [hidden]="submitted" class="login-button" matTooltip="Log In"
+        <button type="submit" [disabled]="!f.form.valid" [hidden]="authenticated" class="login-button" matTooltip="Log In"
             mat-fab color="primary">
             <mat-icon>login</mat-icon>
         </button>
@@ -25,7 +25,7 @@
         <div class="mat-headline">
             <mat-icon>check</mat-icon> Welcome!
         </div>
-        <button mat-raised-button color="primary" (click)="navigateToInventoryList()" cdkFocusInitial>GO TO
+        <button mat-raised-button color="primary" cdkFocusInitial>GO TO
             INVENTORY</button>
     </div>
 </div>

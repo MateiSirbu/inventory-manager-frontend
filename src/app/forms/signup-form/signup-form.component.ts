@@ -15,7 +15,7 @@ export class SignupFormComponent implements OnInit {
     firstName: "",
     lastName: "",
     email: "",
-    password: ""
+    hash: ""
   })
 
   submitted = false;
@@ -25,7 +25,7 @@ export class SignupFormComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    this.openSnackBar(`Called onSubmit. ${this.model.firstName}, ${this.model.lastName}, ${this.model.email}, ${this.model.password}`)
+    this.openSnackBar(`Called onSubmit. ${this.model.firstName}, ${this.model.lastName}, ${this.model.email}, ${this.model.hash}`)
   }
 
   openSnackBar(message) {

@@ -15,7 +15,7 @@ export class LoginFormComponent implements OnInit {
 
   model = new User({
     email: "",
-    password: ""
+    hash: ""
   })
 
   ngOnInit(): void {
@@ -23,7 +23,7 @@ export class LoginFormComponent implements OnInit {
 
   onSubmit() {
     this.authenticated = true;
-    this.openSnackBar(`Called onSubmit. ${this.model.email}, ${this.model.password}`)
+    this.openSnackBar(`Called onSubmit. ${this.model.email}, ${this.model.hash}`)
   }
 
   openSnackBar(message) {

@@ -23,7 +23,7 @@
         <div>
             <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
-                <input type="password" [(ngModel)]="model.password" name="#password" required matInput>
+                <input type="password" [(ngModel)]="model.hash" name="#password" required matInput>
             </mat-form-field>
         </div>
         <button type="submit" [disabled]="!f.form.valid" [hidden]="submitted" class="signup-button" matTooltip="Sign up"
@@ -37,7 +37,7 @@
         <div class="mat-headline">
             <mat-icon style="vertical-align: middle;">person_add_alt_1</mat-icon>&nbsp;Your account has been registered successfully.
         </div>
-        <button mat-raised-button color="primary" (click)="navigateToInventoryList()" cdkFocusInitial>GO TO LOGIN</button>
+        <button mat-raised-button color="primary" cdkFocusInitial>GO TO LOGIN</button>
     </div>
 </div>
 <img class="img-keychain" src="../../../assets/keychain.png">

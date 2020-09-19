@@ -43,6 +43,8 @@ import { LoginComponent } from './menu-items/login/login.component';
 import { LoginFormComponent } from './forms/login-form/login-form.component';
 import { SignupFormComponent } from './forms/signup-form/signup-form.component';
 import { SignupComponent } from './menu-items/signup/signup.component';
+import { HTTP_INTERCEPTORS } from "@angular/common/http"
+import { AuthenticationInterceptor } from './app-logic/authentication-interceptor.service'
 
 @NgModule({
   declarations: [
@@ -89,7 +91,11 @@ import { SignupComponent } from './menu-items/signup/signup.component';
     ZXingScannerModule,
     NgxPrintModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthenticationInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

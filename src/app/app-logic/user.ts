@@ -5,7 +5,8 @@ export class User implements IUser {
     firstName: string;
     lastName: string;
     email: string;
-    password: string;
+    hash: string;
+    salt: string;
 
     public constructor(init?: Partial<User>)
     {
