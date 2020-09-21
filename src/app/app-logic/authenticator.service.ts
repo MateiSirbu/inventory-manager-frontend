@@ -7,40 +7,44 @@ import { shareReplay, tap } from "rxjs/operators"
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticatorService {
+export class Authenticator {
 
   constructor(private http: HttpClient) { }
 
-  login(user: User) {
-    return this.http.post<User>('/api/login', user)
-      .pipe(tap(res => this.setSession), shareReplay());
+  logIn(email: string, password: string) {
+    return this.http.post('/api/login', { email: email, password: password })
+      .pipe(tap(res => this.setSession(res)), shareReplay());
   }
 
-  signup(user: User) {
-    return this.http.post<User>('/api/register', user);
+
+  signUp(user: User) {
+    return this.http.post('/api/register', { firstName: user.firstName, lastName: user.lastName, email: user.email, hash: user.hash });
   }
 
   private setSession(authResult) {
     const expiresAt = moment().add(authResult.expiresIn, 'second');
-
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
   }
 
-  logout() {
+  getAuthenticatedUserInfo() {
+    return this.http.post<User>('/api/login/userinfo', { idToken: localStorage.getItem('id_token') });
+  }
+
+  logOut() {
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
   }
 
-  public isLoggedIn() {
-    return moment().isBefore(this.getExpiration());
+  isLoggedIn() {
+    return moment().isBefore(this.getExpirationTimestamp());
   }
 
   isLoggedOut() {
     return !this.isLoggedIn();
   }
 
-  getExpiration() {
+  getExpirationTimestamp() {
     const expiration = localStorage.getItem("expires_at");
     const expiresAt = JSON.parse(expiration);
     return moment(expiresAt);

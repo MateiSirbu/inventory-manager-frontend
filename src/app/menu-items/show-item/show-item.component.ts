@@ -54,6 +54,7 @@ export class ShowItemComponent implements OnInit {
 
   openSnackBarAlert(message) {
     this.snackBar.open(message, 'OK', {
+      duration: 10000,
       panelClass: ['my-snack-bar-alert']
     });
   }

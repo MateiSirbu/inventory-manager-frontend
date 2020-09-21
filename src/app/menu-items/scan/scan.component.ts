@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BarcodeFormat } from '@zxing/library';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Authenticator } from 'src/app/app-logic/authenticator.service';
 
 @Component({
   selector: 'app-scan',
@@ -18,9 +19,14 @@ export class ScanComponent implements OnInit {
   hasPermission: boolean = null;
   data: string = null;
 
-  constructor(private router: Router, private snackBar: MatSnackBar) { }
+  constructor(private router: Router, private snackBar: MatSnackBar, public authenticator: Authenticator) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    if (!this.authenticator.isLoggedIn()) 
+    {
+      this.openSnackBarAlert('To scan an item, you need to log in first.')
+      this.router.navigate(['/login']);
+    }
   }
 
   onPermissionResponse(permission: boolean) {
@@ -41,6 +47,13 @@ export class ScanComponent implements OnInit {
     this.snackBar.open(message, 'OK', {
       duration: 3000,
       panelClass: ['my-snack-bar']
+    });
+  }
+
+  openSnackBarAlert(message) {
+    this.snackBar.open(message, 'OK', {
+      duration: 10000,
+      panelClass: ['my-snack-bar-alert']
     });
   }
 

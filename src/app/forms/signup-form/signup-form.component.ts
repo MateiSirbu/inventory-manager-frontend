@@ -1,5 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { EMPTY } from 'rxjs/internal/observable/empty';
+import { catchError, tap } from 'rxjs/operators';
+import { Authenticator } from 'src/app/app-logic/authenticator.service';
 import { User } from 'src/app/app-logic/user';
 
 @Component({
@@ -9,7 +14,9 @@ import { User } from 'src/app/app-logic/user';
 })
 export class SignupFormComponent implements OnInit {
 
-  constructor(private snackBar: MatSnackBar) { }
+  constructor(private snackBar: MatSnackBar,
+    public authenticator: Authenticator,
+    private router: Router) { }
 
   model = new User({
     firstName: "",
@@ -18,14 +25,34 @@ export class SignupFormComponent implements OnInit {
     hash: ""
   })
 
+  inputEnabled = true;
   submitted = false;
 
   ngOnInit(): void {
   }
 
   onSubmit() {
-    this.submitted = true;
-    this.openSnackBar(`Called onSubmit. ${this.model.firstName}, ${this.model.lastName}, ${this.model.email}, ${this.model.hash}`)
+    this.openSnackBar('Creating your account...')
+    this.inputEnabled = false;
+    this.model.email = this.model.email.toLowerCase();
+    this.authenticator.signUp(this.model)
+      .pipe(tap((resp) => {
+        if (resp != null) {
+          this.openSnackBar('Account created successfully.')
+          this.submitted = true;
+          this.inputEnabled = true;
+        }
+      }))
+      .pipe(catchError((error: HttpErrorResponse) => {
+        this.openSnackBarAlert(`${error.status}: ${error.statusText}. Cannot register.`);
+        this.inputEnabled = true;
+        return EMPTY;
+      }))
+      .subscribe();
+  }
+
+  navigateToLogin() {
+    this.router.navigate(['/login']);
   }
 
   openSnackBar(message) {
@@ -37,6 +64,7 @@ export class SignupFormComponent implements OnInit {
 
   openSnackBarAlert(message) {
     this.snackBar.open(message, 'OK', {
+      duration: 10000,
       panelClass: ['my-snack-bar-alert']
     });
   }

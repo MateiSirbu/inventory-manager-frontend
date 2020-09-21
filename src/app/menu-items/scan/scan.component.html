@@ -6,7 +6,7 @@
     <div class="mat-title" *ngIf="hasPermission == true && availableDevices != null"><img src="../../../assets/looking_for_you.gif" height="16px">&nbsp;Looking for code...</div>
     <div class="centered">
         <div class="camera">
-            <zxing-scanner 
+            <zxing-scanner *ngIf="authenticator.isLoggedIn()"
                 [torch]="torchEnabled" 
                 [tryHarder]="tryHarder"
                 [(device)]="currentDevice"

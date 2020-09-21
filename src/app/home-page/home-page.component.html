@@ -1,12 +1,35 @@
 <div class="container">
     <mat-card>
-        <mat-card-header>
-            <mat-card-title>
-                <h1>Welcome to the Inventory Manager!</h1>
-            </mat-card-title>
-            <mat-card-subtitle>
-                <i>Inventory is money</i> sitting around in another form. Manage your inventory <i>like a pro</i>.
-            </mat-card-subtitle>
-        </mat-card-header>
+        <mat-card-title>
+            <h1>Welcome to the Inventory Manager!</h1>
+        </mat-card-title>
+        <mat-card-subtitle>
+            <b>Inventory is money</b> sitting around in another form. Manage your inventory <b>like a pro</b>.
+        </mat-card-subtitle>
+    </mat-card><br>
+    <mat-card *ngIf="!authenticator.isLoggedIn()">
+        <img class="img-keychain" src="../../../assets/keychain.png">
+        <mat-card-title>
+            <h1>You are not logged in</h1>
+        </mat-card-title>
+        <mat-card-subtitle>
+            To use the Inventory Manager, you need to <b>log in</b>. If you don't have an account yet, you can <b>create one</b>.
+        </mat-card-subtitle>
+        <mat-card-actions>
+            <button mat-raised-button (click)="navigateToLogIn()" color="primary" cdkFocusInitial>LOG IN</button>
+            <button mat-raised-button (click)="navigateToSignUp()" color="primary" cdkFocusInitial>SIGN UP</button>
+        </mat-card-actions>
+    </mat-card>
+    <mat-card *ngIf="authenticator.isLoggedIn()">
+        <img class="img-keychain" src="../../../assets/keychain.png">
+        <mat-card-title>
+            <h1>You are logged in, {{firstName}}</h1>
+        </mat-card-title>
+        <mat-card-subtitle>
+            You are currently authenticated as <b>{{firstName}} {{lastName}} &lt;{{email}}&gt;</b>.
+        </mat-card-subtitle>
+        <mat-card-actions>
+            <button mat-raised-button (click)="logOut()" color="primary" cdkFocusInitial>LOG OUT</button>
+        </mat-card-actions>
     </mat-card>
 </div>

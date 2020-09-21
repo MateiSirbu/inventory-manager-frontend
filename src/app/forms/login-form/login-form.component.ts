@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '../../app-logic/user'
+import { Authenticator } from '../../app-logic/authenticator.service'
+import { catchError, tap } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+import { EMPTY, of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -9,21 +14,75 @@ import { User } from '../../app-logic/user'
 })
 export class LoginFormComponent implements OnInit {
 
-  constructor(private snackBar: MatSnackBar) { }
+  constructor(private snackBar: MatSnackBar,
+    public authenticator: Authenticator,
+    private route: Router) { }
 
-  authenticated = false;
+  inputEnabled = true;
 
   model = new User({
     email: "",
     hash: ""
   })
 
+  userName: string;
+
   ngOnInit(): void {
+    if (this.authenticator.isLoggedIn)
+      this.authenticator.getAuthenticatedUserInfo()
+        .pipe(tap((res) => {
+          this.userName = res.firstName + ' ' + res.lastName
+        }), catchError(err => {return EMPTY;}))
+        .subscribe();
   }
 
   onSubmit() {
-    this.authenticated = true;
-    this.openSnackBar(`Called onSubmit. ${this.model.email}, ${this.model.hash}`)
+    this.openSnackBar(`Logging you in...`);
+    this.inputEnabled = false;
+    this.model.email = this.model.email.toLowerCase();
+    this.authenticator.logIn(this.model.email, this.model.hash)
+      .pipe(tap((resp) => {
+        if (resp != null) {
+          this.openSnackBar(`Login successful.`);
+          this.authenticator.getAuthenticatedUserInfo()
+            .pipe(tap((res) => {
+              this.userName = res.firstName + ' ' + res.lastName
+            }), catchError(err => {return EMPTY;}))
+            .subscribe();
+        }
+      }))
+      .pipe(catchError((error: HttpErrorResponse) => {
+        if (error.status == 404) { // not found
+          this.model.email = '';
+          this.model.hash = '';
+          this.openSnackBarAlert(`No account is associated with this e-mail address.`);
+        }
+        else if (error.status == 401) { // unauthorized 
+          this.model.hash = '';
+          this.openSnackBarAlert(`Incorrect credentials, please try again.`);
+        }
+        else
+          this.openSnackBarAlert(`${error.status}: ${error.statusText}. Cannot log in.`);
+        this.inputEnabled = true;
+        return EMPTY;
+      }))
+      .subscribe()
+  }
+
+  navigateToInventoryList() {
+    this.route.navigate(['/inventory']);
+  }
+
+  navigateToSignUp() {
+    this.route.navigate(['/register']);
+  }
+
+  logOut() {
+    this.authenticator.logOut();
+    this.model.email = '';
+    this.model.hash = '';
+    this.inputEnabled = true;
+    this.openSnackBar(`You have been logged out.`);
   }
 
   openSnackBar(message) {
@@ -35,6 +94,7 @@ export class LoginFormComponent implements OnInit {
 
   openSnackBarAlert(message) {
     this.snackBar.open(message, 'OK', {
+      duration: 10000,
       panelClass: ['my-snack-bar-alert']
     });
   }

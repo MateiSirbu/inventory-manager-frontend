@@ -15,6 +15,7 @@ import { merge, BehaviorSubject, pipe, forkJoin, Observable, EMPTY } from 'rxjs'
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Authenticator } from 'src/app/app-logic/authenticator.service';
 
 @Component({
   selector: 'app-inventory',
@@ -56,9 +57,15 @@ export class InventoryComponent implements OnInit {
   }
 
   constructor(private inventoryListMockService: InventoryListMockService, public dialog: MatDialog, private fb: FormBuilder,
-    private inventoryListService: InventoryListService, private snackBar: MatSnackBar) { }
+    private inventoryListService: InventoryListService, private snackBar: MatSnackBar, public authenticator: Authenticator,
+    private router: Router) { }
 
   ngOnInit(): void {
+
+    if (!this.authenticator.isLoggedIn()) {
+      this.openSnackBarAlert('To view the inventory, you need to log in first.')
+      this.router.navigate(['/login']);
+    }
 
     this.isLoading = true;
 
@@ -95,9 +102,10 @@ export class InventoryComponent implements OnInit {
           this.isLoading = false;
         },
         (error) => {
-          console.log('Table could not be filled with data', error);
+          console.log('Table could not be filled with data.');
           this.isLoading = false;
-          this.openSnackBarAlert(`${error.status} ${error.statusText}. Cannot fill table with data.`);
+          if (this.authenticator.isLoggedIn())
+            this.openSnackBarAlert(`${error.status}: ${error.statusText}. Cannot fill table with data.`);
         }
       );
 
@@ -186,7 +194,7 @@ export class InventoryComponent implements OnInit {
             }
           }))
           .pipe(catchError((error: HttpErrorResponse) => {
-            this.openSnackBarAlert(`${error.status} ${error.statusText}. Cannot update item.`);
+            this.openSnackBarAlert(`${error.status}: ${error.statusText}. Cannot update item.`);
             return EMPTY;
           }))
           .subscribe();
@@ -211,7 +219,7 @@ export class InventoryComponent implements OnInit {
           this.openSnackBar(`${noOfItems} ${(noOfItems == 1) ? "item" : "items"} deleted successfully.`)
       }))
       .pipe(catchError((error: HttpErrorResponse) => {
-        this.openSnackBarAlert(`${error.status} ${error.statusText}. Cannot delete ${(noOfItems == 1) ? "item" : "items"}.`);
+        this.openSnackBarAlert(`${error.status}: ${error.statusText}. Cannot delete ${(noOfItems == 1) ? "item" : "items"}.`);
         return EMPTY;
       }))
       .subscribe(() => {
@@ -246,7 +254,7 @@ export class InventoryComponent implements OnInit {
           this.openSnackBar(`${noOfItems} ${(noOfItems == 1) ? "item" : "items"} marked as active.`)
       }))
       .pipe(catchError((error: HttpErrorResponse) => {
-        this.openSnackBarAlert(`${error.status} ${error.statusText}. Cannot mark ${(noOfItems == 1) ? "item" : "items"} as active.`);
+        this.openSnackBarAlert(`${error.status}: ${error.statusText}. Cannot mark ${(noOfItems == 1) ? "item" : "items"} as active.`);
         return EMPTY;
       }))
       .subscribe(() => {
@@ -269,6 +277,7 @@ export class InventoryComponent implements OnInit {
 
   openSnackBarAlert(message) {
     this.snackBar.open(message, 'OK', {
+      duration: 10000,
       panelClass: ['my-snack-bar-alert']
     });
   }
