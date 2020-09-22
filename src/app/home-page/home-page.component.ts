@@ -1,8 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { EMPTY, of } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
+import { EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Authenticator } from '../app-logic/authenticator.service';
 
@@ -18,9 +18,17 @@ export class HomePageComponent implements OnInit {
   firstName: string;
   lastName: string;
   email: string;
+  backendBroken: boolean = false;
 
   ngOnInit(): void {
     this.authenticator.getAuthenticatedUserInfo()
+      .pipe(catchError((err: HttpErrorResponse) => {
+        if (err.status == 504) {
+          this.backendBroken = true;
+          this.authenticator.logOut();
+        }
+        return EMPTY;
+      }))
       .subscribe((res) => {
         this.firstName = res.firstName;
         this.lastName = res.lastName;

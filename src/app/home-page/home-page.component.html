@@ -7,20 +7,21 @@
             <b>Inventory is money</b> sitting around in another form. Manage your inventory <b>like a pro</b>.
         </mat-card-subtitle>
     </mat-card><br>
-    <mat-card *ngIf="!authenticator.isLoggedIn()">
+    <mat-card *ngIf="!authenticator.isLoggedIn() && !backendBroken">
         <img class="img-keychain" src="../../../assets/keychain.png">
         <mat-card-title>
             <h1>You are not logged in</h1>
         </mat-card-title>
         <mat-card-subtitle>
-            To use the Inventory Manager, you need to <b>log in</b>. If you don't have an account yet, you can <b>create one</b>.
+            To use the Inventory Manager, you need to <b>log in</b>. If you don't have an account yet, you can
+            <b>create one</b>.
         </mat-card-subtitle>
         <mat-card-actions>
             <button mat-raised-button (click)="navigateToLogIn()" color="primary" cdkFocusInitial>LOG IN</button>
             <button mat-raised-button (click)="navigateToSignUp()" color="primary" cdkFocusInitial>SIGN UP</button>
         </mat-card-actions>
     </mat-card>
-    <mat-card *ngIf="authenticator.isLoggedIn()">
+    <mat-card *ngIf="authenticator.isLoggedIn() && !backendBroken">
         <img class="img-keychain" src="../../../assets/keychain.png">
         <mat-card-title>
             <h1>You are logged in, {{firstName}}</h1>
@@ -30,6 +31,19 @@
         </mat-card-subtitle>
         <mat-card-actions>
             <button mat-raised-button (click)="logOut()" color="primary" cdkFocusInitial>LOG OUT</button>
+        </mat-card-actions>
+    </mat-card>
+    <mat-card *ngIf="backendBroken">
+        <img class="img-keychain" src="../../../assets/keychain.png">
+        <mat-card-title>
+            <h1>Houston, we have a problem.</h1>
+        </mat-card-title>
+        <mat-card-subtitle>
+            We are currently experiencing technical difficulties with the Inventory Manager. Please try again later.
+        </mat-card-subtitle>
+        <mat-card-actions>
+            <button mat-raised-button (click)="navigateToLogIn()" [disabled]="true" color="primary" cdkFocusInitial>LOG IN</button>
+            <button mat-raised-button (click)="navigateToSignUp()" [disabled]="true" color="primary" cdkFocusInitial>SIGN UP</button>
         </mat-card-actions>
     </mat-card>
 </div>

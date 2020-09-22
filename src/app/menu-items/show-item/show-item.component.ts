@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InventoryListService } from '../../app-logic/inventory-list.service';
 import { InventoryItem } from 'src/app/app-logic/inventory-item';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { EMPTY } from 'rxjs';
@@ -22,7 +22,6 @@ export class ShowItemComponent implements OnInit {
   constructor(
     private inventoryListService: InventoryListService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
     private snackBar: MatSnackBar) {
     this.activatedRoute.params.subscribe((params) => {
       this.itemId = params.id;

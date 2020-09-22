@@ -16,7 +16,10 @@ export class InventoryListMockService {
       location: 'Level 2',
       inventoryNumber: 20190001,
       createdAt: new Date('2019-01-01'),
+      addedAt: new Date('2019-01-01'),
+      addedBy: 'John Doe',
       modifiedAt: new Date('2020-02-02'),
+      modifiedBy: 'John Doe',
       active: false
     },
     {
@@ -27,7 +30,10 @@ export class InventoryListMockService {
       location: 'Level 2',
       inventoryNumber: 20190002,
       createdAt: new Date('2019-01-01'),
+      addedAt: new Date('2019-01-01'),
+      addedBy: 'John Doe',
       modifiedAt: new Date('2020-02-03'),
+      modifiedBy: 'John Doe',
       active: false
     },
     {
@@ -38,7 +44,10 @@ export class InventoryListMockService {
       location: 'Level 1',
       inventoryNumber: 20190003,
       createdAt: new Date('2019-01-01'),
+      addedAt: new Date('2019-01-01'),
+      addedBy: 'John Doe',
       modifiedAt: new Date('2020-02-03'),
+      modifiedBy: 'John Doe',
       active: true
     },
     {
@@ -49,7 +58,10 @@ export class InventoryListMockService {
       location: 'Level 1',
       inventoryNumber: 20190004,
       createdAt: new Date('2019-01-01'),
+      addedAt: new Date('2019-01-01'),
+      addedBy: 'John Doe',
       modifiedAt: new Date('2020-03-05'),
+      modifiedBy: 'John Doe',
       active: false
     },
     {
@@ -60,7 +72,10 @@ export class InventoryListMockService {
       location: 'Level 1',
       inventoryNumber: 20190004,
       createdAt: new Date('2020-02-05'),
+      addedAt: new Date('2019-01-01'),
+      addedBy: 'John Doe',
       modifiedAt: new Date('2020-03-05'),
+      modifiedBy: 'John Doe',
       active: true
     },
 
@@ -73,7 +88,10 @@ export class InventoryListMockService {
       location: 'Level 2',
       inventoryNumber: 20200006,
       createdAt: new Date('2020-01-01'),
+      addedAt: new Date('2019-01-01'),
+      addedBy: 'John Doe',
       modifiedAt: new Date('2020-02-02'),
+      modifiedBy: 'John Doe',
       active: false
     },
     {
@@ -84,7 +102,10 @@ export class InventoryListMockService {
       location: 'Level 2',
       inventoryNumber: 20200007,
       createdAt: new Date('2020-01-01'),
+      addedAt: new Date('2019-01-01'),
+      addedBy: 'John Doe',
       modifiedAt: new Date('2020-02-03'),
+      modifiedBy: 'John Doe',
       active: false
     },
     {
@@ -95,7 +116,10 @@ export class InventoryListMockService {
       location: 'Level 1',
       inventoryNumber: 20200008,
       createdAt: new Date('2020-01-01'),
+      addedAt: new Date('2019-01-01'),
+      addedBy: 'John Doe',
       modifiedAt: new Date('2020-02-03'),
+      modifiedBy: 'John Doe',
       active: true
     },
     {
@@ -106,7 +130,10 @@ export class InventoryListMockService {
       location: 'Level 1',
       inventoryNumber: 20200009,
       createdAt: new Date('2020-01-01'),
+      addedAt: new Date('2019-01-01'),
+      addedBy: 'John Doe',
       modifiedAt: new Date('2020-03-05'),
+      modifiedBy: 'John Doe',
       active: false
     },
     {
@@ -117,7 +144,10 @@ export class InventoryListMockService {
       location: 'Level 1',
       inventoryNumber: 20200004,
       createdAt: new Date('2020-02-05'),
+      addedAt: new Date('2019-01-01'),
+      addedBy: 'John Doe',
       modifiedAt: new Date('2020-03-05'),
+      modifiedBy: 'John Doe',
       active: true
     }
   ];

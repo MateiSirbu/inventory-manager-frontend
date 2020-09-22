@@ -27,6 +27,7 @@ export class SignupFormComponent implements OnInit {
 
   inputEnabled = true;
   submitted = false;
+  verifyPassword = "";
 
   ngOnInit(): void {
   }

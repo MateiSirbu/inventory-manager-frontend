@@ -6,35 +6,44 @@
         <div>
             <mat-form-field appearance="fill">
                 <mat-label>First Name</mat-label>
-                <input type="text" [disabled]="!inputEnabled" [(ngModel)]="model.firstName" name="#firstName" required
+                <input type="text" [disabled]="!inputEnabled" [(ngModel)]="model.firstName" name="firstName" required
                     matInput>
             </mat-form-field>
         </div>
         <div>
             <mat-form-field appearance="fill">
                 <mat-label>Last Name</mat-label>
-                <input type="text" [disabled]="!inputEnabled" [(ngModel)]="model.lastName" name="#lastName" required
+                <input type="text" [disabled]="!inputEnabled" [(ngModel)]="model.lastName" name="lastName" required
                     matInput>
             </mat-form-field>
         </div>
         <div>
             <mat-form-field appearance="fill">
                 <mat-label>E-mail address</mat-label>
-                <input type="text" [disabled]="!inputEnabled" [(ngModel)]="model.email" name="#email" required matInput>
+                <input type="text" [disabled]="!inputEnabled" [(ngModel)]="model.email" name="email" required matInput>
             </mat-form-field>
         </div>
         <div>
             <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
-                <input type="password" [disabled]="!inputEnabled" [(ngModel)]="model.hash" name="#password" required
+                <input type="password" [disabled]="!inputEnabled" [(ngModel)]="model.hash" name="password" required
                     matInput>
             </mat-form-field>
         </div>
-        <div class="mat-body">Already have an account?&nbsp;&nbsp;&nbsp;<button mat-raised-button [disabled]="!inputEnabled" (click)="navigateToLogin()" color="primary" cdkFocusInitial>LOG IN</button></div>
-        <button type="submit" [disabled]="!f.form.valid || !inputEnabled" [hidden]="submitted" class="signup-button"
-            matTooltip="Sign up" mat-fab color="primary">
+        <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Verify password</mat-label>
+                <input type="password" [disabled]="!inputEnabled" [(ngModel)]="verifyPassword" name="verifyPassword"
+                    required matInput>
+            </mat-form-field>
+        </div>
+        <button type="submit" [disabled]="!f.form.valid || !inputEnabled || model.hash != verifyPassword"
+            [hidden]="submitted" class="signup-button" matTooltip="Sign up" mat-fab color="primary">
             <mat-icon>person_add_alt_1</mat-icon>
         </button>
+        <div class="mat-body">Already have an account?&nbsp;&nbsp;&nbsp;<button mat-raised-button
+                [disabled]="!inputEnabled" (click)="navigateToLogin()" color="primary" cdkFocusInitial>LOG IN</button>
+        </div>
     </form>
 </div>
 <div class="container" [hidden]="!submitted">

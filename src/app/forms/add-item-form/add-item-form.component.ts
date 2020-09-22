@@ -30,32 +30,45 @@ export class AddItemFormComponent implements OnInit {
     location: "Level 1",
     inventoryNumber: 12345678,
     createdAt: new Date(),
+    addedAt: new Date(),
+    addedBy: 'Unknown User',
     modifiedAt: new Date(),
+    modifiedBy: 'Unknown User',
     description: "The thing in a nutshell, or two",
     active: false
   })
 
   ngOnInit() {
-    if (!this.authenticator.isLoggedIn()) 
-    {
+    if (!this.authenticator.isLoggedIn()) {
       this.openSnackBarAlert('To add an item, you need to log in first.')
       this.route.navigate(['/login']);
     }
   }
 
   onSubmit() {
-    // this.model.id = this.inventoryMockService.getLastId() + 1; 
-    // unnecessary, mongoDB does this for you. Also not required by API, throws internal error
-    this.inventoryListService.postData(this.model)
-      .pipe(tap((resp) => {
-        if (resp != null)
-          this.submitted = true;
-      }))
-      .pipe(catchError((error: HttpErrorResponse) => {
-        this.openSnackBarAlert(`${error.status}: ${error.statusText}. Cannot add item.`);
+    this.authenticator.getAuthenticatedUserInfo()
+      .pipe(catchError((err) => {
+        this.openSnackBarAlert(`${err.status}: ${err.statusText}. Cannot add item.`);
         return EMPTY;
       }))
-      .subscribe();
+      .subscribe((res) => {
+        this.model.addedBy = res.firstName + ' ' + res.lastName;
+        this.model.modifiedBy = res.firstName + ' ' + res.lastName;
+        this.model.addedAt = new Date();
+        this.model.modifiedAt = new Date();
+        this.inventoryListService.postData(this.model)
+          .pipe(tap((resp) => {
+            if (resp != null) {
+              this.submitted = true;
+            }
+          }))
+          .pipe(catchError((error: HttpErrorResponse) => {
+            this.openSnackBarAlert(`${error.status}: ${error.statusText}. Cannot add item.`);
+            return EMPTY;
+          }))
+          .subscribe();
+      })
+
   }
 
   navigateToInventoryList() {

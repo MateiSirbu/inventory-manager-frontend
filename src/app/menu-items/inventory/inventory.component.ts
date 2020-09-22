@@ -10,8 +10,8 @@ import { ConfirmItemDeletionComponent } from 'src/app/dialogs/confirm-item-delet
 import { ConfirmMarkAsActiveComponent } from 'src/app/dialogs/confirm-mark-as-active/confirm-mark-as-active.component'
 import { EditInventoryItemComponent } from 'src/app/dialogs/edit-inventory-item/edit-inventory-item.component';
 import { FormBuilder, Validators } from '@angular/forms';
-import { finalize, tap, switchMap, catchError } from 'rxjs/operators';
-import { merge, BehaviorSubject, pipe, forkJoin, Observable, EMPTY } from 'rxjs';
+import { tap, switchMap, catchError } from 'rxjs/operators';
+import { merge, BehaviorSubject, forkJoin, Observable, EMPTY } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -33,17 +33,20 @@ export class InventoryComponent implements OnInit {
   activeOnly$ = new BehaviorSubject(false);
   itemsCount = 0;
   tableRequiresRefresh: EventEmitter<any> = new EventEmitter();
+  authenticatedUserName: string;
 
   inventoryColumns: string[] = [
     'select',
-    'id',
     'name',
     'user',
     'description',
     'location',
     'inventoryNumber',
     'createdAt',
+    'addedAt',
+    'addedBy',
     'modifiedAt',
+    'modifiedBy',
     'active',
     'editAction'
   ]
@@ -56,7 +59,7 @@ export class InventoryComponent implements OnInit {
     this.activeOnly$.next(v);
   }
 
-  constructor(private inventoryListMockService: InventoryListMockService, public dialog: MatDialog, private fb: FormBuilder,
+  constructor(public dialog: MatDialog, private fb: FormBuilder,
     private inventoryListService: InventoryListService, private snackBar: MatSnackBar, public authenticator: Authenticator,
     private router: Router) { }
 
@@ -168,36 +171,48 @@ export class InventoryComponent implements OnInit {
     const dialogRef = this.dialog.open(EditInventoryItemComponent, { width: '400px', maxHeight: '90vh', data: itemInfoForm })
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
-        let updatedItem: InventoryItem = {
-          id: itemInfoForm.value.id,
-          name: itemInfoForm.value.name,
-          user: itemInfoForm.value.user,
-          description: itemInfoForm.value.description,
-          location: itemInfoForm.value.location,
-          inventoryNumber: itemInfoForm.value.inventoryNumber,
-          createdAt: itemInfoForm.value.createdAt,
-          modifiedAt: new Date(),
-          active: item.active
-        }
-        this.inventoryListService.updateData(updatedItem)
-          .pipe(tap((resp) => {
-            if (resp != null) {
-              this.openSnackBar(`Item \'${item.name}\' updated successfully.`)
-              item.id = itemInfoForm.value.id;
-              item.name = itemInfoForm.value.name;
-              item.user = itemInfoForm.value.user;
-              item.description = itemInfoForm.value.description;
-              item.location = itemInfoForm.value.location;
-              item.inventoryNumber = itemInfoForm.value.inventoryNumber;
-              item.createdAt = itemInfoForm.value.createdAt;
-              item.modifiedAt = new Date();
-            }
-          }))
-          .pipe(catchError((error: HttpErrorResponse) => {
-            this.openSnackBarAlert(`${error.status}: ${error.statusText}. Cannot update item.`);
+        this.authenticator.getAuthenticatedUserInfo()
+          .pipe(catchError((err) => {
+            this.openSnackBarAlert(`${err.status}: ${err.statusText}. Cannot update item.`);
             return EMPTY;
           }))
-          .subscribe();
+          .subscribe((res) => {
+            this.authenticatedUserName = res.firstName + ' ' + res.lastName;
+            let updatedItem: InventoryItem = {
+              id: itemInfoForm.value.id,
+              name: itemInfoForm.value.name,
+              user: itemInfoForm.value.user,
+              description: itemInfoForm.value.description,
+              location: itemInfoForm.value.location,
+              inventoryNumber: itemInfoForm.value.inventoryNumber,
+              createdAt: itemInfoForm.value.createdAt,
+              addedAt: item.addedAt,
+              addedBy: item.addedBy,
+              modifiedAt: new Date(),
+              modifiedBy: this.authenticatedUserName,
+              active: item.active
+            }
+            this.inventoryListService.updateData(updatedItem)
+              .pipe(tap((resp) => {
+                if (resp != null) {
+                  this.openSnackBar(`Item \'${item.name}\' updated successfully.`)
+                  item.id = itemInfoForm.value.id;
+                  item.name = itemInfoForm.value.name;
+                  item.user = itemInfoForm.value.user;
+                  item.description = itemInfoForm.value.description;
+                  item.location = itemInfoForm.value.location;
+                  item.inventoryNumber = itemInfoForm.value.inventoryNumber;
+                  item.createdAt = itemInfoForm.value.createdAt;
+                  item.modifiedAt = new Date();
+                  item.modifiedBy = this.authenticatedUserName;
+                }
+              }))
+              .pipe(catchError((error: HttpErrorResponse) => {
+                this.openSnackBarAlert(`${error.status}: ${error.statusText}. Cannot update item.`);
+                return EMPTY;
+              }))
+              .subscribe();
+          })
       }
     })
   }
@@ -238,29 +253,41 @@ export class InventoryComponent implements OnInit {
       console.log(selectionItem);
     })
 
-    markedSelection.forEach(selectionItem => {
-      selectionItem.active = true;
-    })
+    let userName: string = null;
 
-    markedSelection.forEach(selectionItem => {
-      markItemRequests$.push(
-        this.inventoryListService.updateData(selectionItem)
-      )
-    })
-
-    forkJoin(markItemRequests$)
-      .pipe(tap((resp) => {
-        if (resp != null)
-          this.openSnackBar(`${noOfItems} ${(noOfItems == 1) ? "item" : "items"} marked as active.`)
-      }))
-      .pipe(catchError((error: HttpErrorResponse) => {
-        this.openSnackBarAlert(`${error.status}: ${error.statusText}. Cannot mark ${(noOfItems == 1) ? "item" : "items"} as active.`);
+    this.authenticator.getAuthenticatedUserInfo()
+      .pipe(catchError((err) => {
+        this.openSnackBarAlert(`${err.status}: ${err.statusText}. Cannot update item.`);
         return EMPTY;
       }))
-      .subscribe(() => {
-        this.tableRequiresRefresh.emit(null);
-      })
+      .subscribe((res) => {
+        userName = res.firstName + ' ' + res.lastName;
+        markedSelection.forEach(selectionItem => {
+          selectionItem.active = true;
+          selectionItem.modifiedAt = new Date();
+          selectionItem.modifiedBy = userName;
+        })
 
+        markedSelection.forEach(selectionItem => {
+          markItemRequests$.push(
+            this.inventoryListService.updateData(selectionItem)
+          )
+        })
+
+        forkJoin(markItemRequests$)
+          .pipe(tap((resp) => {
+            if (resp != null)
+              this.openSnackBar(`${noOfItems} ${(noOfItems == 1) ? "item" : "items"} marked as active.`)
+          }))
+          .pipe(catchError((error: HttpErrorResponse) => {
+            this.openSnackBarAlert(`${error.status}: ${error.statusText}. Cannot mark ${(noOfItems == 1) ? "item" : "items"} as active.`);
+            return EMPTY;
+          }))
+          .subscribe(() => {
+            this.tableRequiresRefresh.emit(null);
+          })
+
+      })
   }
 
   toggleActive() {

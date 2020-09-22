@@ -9,7 +9,8 @@
             <p><b>Location: </b>{{item.location}}</p>
             <p><b>Inventory №: </b>{{item.inventoryNumber}}</p>
             <p><b>Created at: </b>{{item.createdAt}}</p>
-            <p><b>Modified at: </b>{{item.modifiedAt}}</p>
+            <p><b>Added: at </b>{{item.addedAt}} <b> by </b>{{item.addedBy}}</p>
+            <p><b>Last modified: at </b>{{item.modifiedAt}} <b> by </b>{{item.modifiedBy}}</p>
             <p><b>Active: </b>
                 <mat-icon *ngIf="item.active">done</mat-icon>
                 <mat-icon *ngIf="!item.active">clear</mat-icon>
