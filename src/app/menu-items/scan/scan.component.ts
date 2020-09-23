@@ -22,10 +22,10 @@ export class ScanComponent implements OnInit {
   constructor(private router: Router, private snackBar: MatSnackBar, public authenticator: Authenticator) { }
 
   ngOnInit() {
-    if (!this.authenticator.isLoggedIn()) 
-    {
+    if (!this.authenticator.isLoggedIn()) {
       this.openSnackBarAlert('To scan an item, you need to log in first.')
       this.router.navigate(['/login']);
+      return;
     }
   }
 

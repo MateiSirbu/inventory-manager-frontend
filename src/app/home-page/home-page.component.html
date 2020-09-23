@@ -39,11 +39,14 @@
             <h1>Houston, we have a problem.</h1>
         </mat-card-title>
         <mat-card-subtitle>
-            We are currently experiencing technical difficulties with the Inventory Manager. Please try again later.
+            We are currently experiencing <b>technical difficulties</b> with the Inventory Manager. Please try again
+            later.
         </mat-card-subtitle>
         <mat-card-actions>
-            <button mat-raised-button (click)="navigateToLogIn()" [disabled]="true" color="primary" cdkFocusInitial>LOG IN</button>
-            <button mat-raised-button (click)="navigateToSignUp()" [disabled]="true" color="primary" cdkFocusInitial>SIGN UP</button>
+            <button mat-raised-button (click)="navigateToLogIn()" [disabled]="true" color="primary" cdkFocusInitial>LOG
+                IN</button>
+            <button mat-raised-button (click)="navigateToSignUp()" [disabled]="true" color="primary"
+                cdkFocusInitial>SIGN UP</button>
         </mat-card-actions>
     </mat-card>
 </div>

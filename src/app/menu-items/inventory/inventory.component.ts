@@ -68,6 +68,7 @@ export class InventoryComponent implements OnInit {
     if (!this.authenticator.isLoggedIn()) {
       this.openSnackBarAlert('To view the inventory, you need to log in first.')
       this.router.navigate(['/login']);
+      return;
     }
 
     this.isLoading = true;

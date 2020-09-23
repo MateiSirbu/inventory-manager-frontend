@@ -1,27 +1,13 @@
-# Inventory
+# Inventory Manager
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.5.
+![](./src/assets/readme_hero.png)
 
-## Development server
+## Synopsis
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The frontend of this desktop and mobile-friendly inventory manager was developed using [Angular CLI](https://github.com/angular/angular-cli) version 10.1.2, with the help of the following `npm` packages: [`@angular/material`](https://www.npmjs.com/package/@angular/material), [`@angular/router`](https://www.npmjs.com/package/@angular/router), [`@ecodev/fab-speed-dial`](https://www.npmjs.com/package/@ecodev/fab-speed-dial), [`@zxing/ngx-scanner`](https://www.npmjs.com/package/@zxing/ngx-scanner), [`angularx-qrcode`](https://www.npmjs.com/package/angularx-qrcode), [`moment`](https://www.npmjs.com/package/moment), [`ngx-print`](https://www.npmjs.com/package/ngx-print) and more. The web app features an inventory editor, a QR code scanner & printer, and authentication via JWT.
 
-## Code scaffolding
+## Running the web app
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Run `npm start` for a dev server. Navigate to `https://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Alternatively, execute `npm run start-network` to expose the application to the local network. Note that running this server is a security risk, therefore it should be run for testing purposes only.

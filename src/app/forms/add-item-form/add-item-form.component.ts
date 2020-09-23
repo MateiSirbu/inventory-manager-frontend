@@ -42,6 +42,7 @@ export class AddItemFormComponent implements OnInit {
     if (!this.authenticator.isLoggedIn()) {
       this.openSnackBarAlert('To add an item, you need to log in first.')
       this.route.navigate(['/login']);
+      return;
     }
   }
 

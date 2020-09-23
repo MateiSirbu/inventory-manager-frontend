@@ -28,12 +28,13 @@ export class LoginFormComponent implements OnInit {
   userName: string;
 
   ngOnInit(): void {
-    if (this.authenticator.isLoggedIn)
+    if (this.authenticator.isLoggedIn()) {
       this.authenticator.getAuthenticatedUserInfo()
         .pipe(tap((res) => {
           this.userName = res.firstName + ' ' + res.lastName
-        }), catchError(err => {return EMPTY;}))
+        }), catchError(err => { return EMPTY; }))
         .subscribe();
+    }
   }
 
   onSubmit() {
@@ -47,7 +48,7 @@ export class LoginFormComponent implements OnInit {
           this.authenticator.getAuthenticatedUserInfo()
             .pipe(tap((res) => {
               this.userName = res.firstName + ' ' + res.lastName
-            }), catchError(err => {return EMPTY;}))
+            }), catchError(err => { return EMPTY; }))
             .subscribe();
         }
       }))
