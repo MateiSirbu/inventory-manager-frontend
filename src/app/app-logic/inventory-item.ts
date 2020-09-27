@@ -1,6 +1,4 @@
-import { IInventoryItem } from "inventory-interfaces/inventoryitem"
-
-export class InventoryItem implements IInventoryItem {
+export class InventoryItem {
     id: string;
     name: string;
     user: string;

@@ -1,6 +1,4 @@
-import { IUser } from "inventory-interfaces/user"
-
-export class User implements IUser {
+export class User {
     id: string;
     firstName: string;
     lastName: string;
